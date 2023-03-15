@@ -1,0 +1,53 @@
+.con{
+    margin: 0 auto;
+    display: flex;
+    height: auto;
+    width:60%;
+    background-color: lavender;
+    padding-top: 2%;
+    box-shadow: 2px 2px 4px lightgray;
+    justify-content: center;
+    gap:5px;
+   
+
+
+}
+
+.detail{
+     width: 40%;
+    overflow-y: auto;
+    padding: 10px;
+}
+.form{
+  width: 50%;
+}
+
+.block{
+    border: 1px solid lightgray;
+    padding: 2px;
+
+}
+.block > li{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.form > form{
+    display: flex;
+    flex-direction: column;
+}
+
+
+.input{
+    margin-bottom: 20px;
+    outline-width:0px ;
+    border: 1px solid gray;
+    padding:10px;
+    border-radius:5px;
+}
+
+.inputpic{
+    margin-bottom: 20px;  
+}
+

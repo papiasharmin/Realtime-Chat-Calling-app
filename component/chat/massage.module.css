@@ -1,0 +1,45 @@
+.massagecon{
+    position: relative;
+    
+    display: flex;
+    margin-top: 12px;
+    align-items: center;
+    float:left;
+    clear: both;
+}
+.massageconu{
+    position: relative;
+    margin-top: 12px;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    float: right;
+    clear: both;
+}
+ .filename{
+     color:cornflowerblue;
+     text-decoration: underline;
+
+ }
+
+
+.massage{
+    background-color: lightblue;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 0px 5px;
+    text-align: center;
+}
+.massageu{
+    background-color: lightgoldenrodyellow;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 0px 5px;
+    text-align: center;
+}
+.time{
+    font-size: 10px;
+    margin-right:0px;
+
+}
+

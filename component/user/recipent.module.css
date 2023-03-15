@@ -1,0 +1,50 @@
+.recipients{
+    display: flex;
+    flex-wrap: row wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2px;
+}
+
+
+.recipients:hover{
+    cursor:pointer;
+    opacity: 0.8;
+}
+.recipients > div{
+    display: flex;
+    gap: 20px;
+}
+.recipients >*{
+    flex: 1fr auto;
+    margin: 5px;
+    
+    position: relative;
+}
+.avatar{
+    background-color: #b87bdb !important;
+}
+
+.badge{
+    position: absolute !important;
+    background-color: #44b700;
+    z-index: 10;
+    top: 20px;
+    left: 20px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1px solid whitesmoke;
+}
+
+.badgeoff{
+    position: absolute !important;
+    background-color: gray;
+    z-index: 10;
+    top: 20px;
+    left: 20px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 1px solid whitesmoke;
+}

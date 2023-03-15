@@ -1,0 +1,184 @@
+.sidebarcon{
+   
+    height:100vh;
+
+}
+.badge{
+    position: absolute !important;
+    background-color: #44b700;
+    z-index: 10;
+    top: 53px;
+    left: 46px;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    border: 1px solid whitesmoke;
+}
+.badgeof{
+    position: absolute !important;
+    background-color: lightgray;
+    z-index: 10;
+    top: 53px;
+    left: 46px;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    border: 1px solid whitesmoke;
+
+}
+
+
+.header{
+    
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: plum;
+    padding: 8px 15px;
+    min-height: 10vh;
+    border-bottom: 2px solid whitesmoke
+    
+}
+.offline{
+    color:teal;
+    font-weight: bold;
+}
+.avatar > img{
+    border-radius: 50%;
+    
+}
+.avatar > span{
+    margin-right: 5px;
+}
+.header > *:hover{
+    
+    
+    cursor:pointer;
+}
+
+.search{
+ 
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+    min-height: 4vh;
+}
+.search > input{
+  margin:0;
+  border:none;
+  outline:none;
+  flex:1;
+}
+.button{
+    width:100%;
+    color:black;
+    border-bottom: 2px solid whitesmoke;
+    
+}
+.chatinput{
+    width:100%;
+    border:none;
+  outline:none;
+  padding: 10px;
+  
+}
+
+.header{
+    color: lavenderblush;
+
+}
+.avatar{
+    display: flex;
+    align-items: center;
+    justify-items: space-between;
+    /* justify-content: center; */
+    gap: 15px;
+}
+.searchinput{
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+    
+}
+
+.modal{
+    background-color: whitesmoke;
+    border:1px solid lightcyan;
+    width: max-content;
+    padding: 10px;
+    z-index: 100;
+    position: absolute;
+}
+
+.sidebarcon > div >p{
+    text-align: center;
+    margin: 0;
+    padding: 5px; 
+    font-size: 1.1em;
+    letter-spacing: 1px;
+    border-bottom: 2px solid whitesmoke;
+}
+
+.recipientcon{
+    border: 1px solid lightgray;
+    background-color: lavender;
+    margin: 10px 5px 5px;
+    height: 75vh;
+    overflow-y: auto;
+}
+
+@media only screen and (max-width: 768px) {
+    .sidebarcon{
+        width: 100%;
+    }
+}
+.notifycon{
+    position: absolute;
+    top: 30px;
+    left: -20px;
+    padding: 10px 20px;
+    z-index: 200;
+    overflow-y: auto;
+    min-height: 50px;
+    min-width: 150px;
+    background-color: cornflowerblue;
+    box-shadow: 2px 2px 7px gray;
+    border-radius: 8px;
+    
+
+}
+
+.notifycon >ul{
+    color: black;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    
+}
+.notifycon > ul>li:hover{
+   transform: scale(1.1);
+}
+
+.notifycon >p{
+    margin: 0;
+}
+.header > div:nth-child(2){
+    position: relative;
+
+}
+.badgenotify{
+    position: absolute;
+    top: -8px;
+    left: -4px;
+    border-radius: 50%;
+    background-color: rgb(181, 21, 21);
+    color: white;
+    text-align: center;
+    width: 18px;
+    height: 18px;
+}
+

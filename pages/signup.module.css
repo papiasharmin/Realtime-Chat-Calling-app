@@ -1,0 +1,42 @@
+.from{
+    width:max-content;
+    background-color: lavender;
+    border-radius:15px;
+    box-shadow: 3px 3px 5px whitesmoke;
+    padding:35px 60px;
+    margin: 100px auto;
+      
+  
+  }
+  
+  .from > h3{
+      color: #b87bdb;
+  }
+  
+  
+  .from > .inputs{
+
+      border-bottom: 2px solid whitesmoke;
+      padding: 5px 0px;
+      margin: 10px auto;
+      width:100%
+  }
+  
+  .inputs > input{
+     outline-width:0px ;
+     border: 1px solid gray;
+     padding:10px;
+     border-radius:5px;
+     margin: 5px 0;
+     width:100%
+  
+  }
+  .from > button{
+      background-color: plum;
+  }
+  .notify{
+    font-size: small;
+    color:cornflowerblue;
+    font-weight: bold;
+  }
+  

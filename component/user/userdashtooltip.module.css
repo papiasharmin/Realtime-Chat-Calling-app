@@ -1,0 +1,14 @@
+.tooltip{
+    position: absolute;
+    top: 80%;
+    font-size: 1px;
+    z-index: 1;
+    background-color: antiquewhite;
+    min-width: 150px;
+    
+    
+
+}
+.tooltip:hover{
+    opacity: 1 !important;
+}

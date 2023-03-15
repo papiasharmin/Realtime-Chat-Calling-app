@@ -1,0 +1,217 @@
+.massagecon{
+    padding: 30px;
+    /* margin-bottom: 10px; */
+    background-color: rgb(242, 242, 246);
+    height: 65vh;
+    overflow-y: auto
+
+}
+
+.chatcon > header{
+    position: relative;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: lavender;
+    border-bottom: 2px solid whitesmoke;
+    padding: 8px;
+    min-height: 10vh;
+
+}
+
+.badge{
+    position: absolute !important;
+    background-color: #44b700;
+    
+    z-index: 10;
+    top: 46px;
+    left: 44px;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    border: 1px solid whitesmoke;
+}
+
+.badgeoff{
+    position: absolute !important;
+    background-color: gray;
+    
+    z-index: 10;
+    top: 46px;
+    left: 44px;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    border: 1px solid whitesmoke;
+}
+
+.avatar{
+    background-color: #b87bdb !important;
+    font-size: 16px !important;
+}
+.avatarbor{
+    border:2px solid whitesmoke;
+    border-radius:50%
+}
+
+.recipient{
+    display:flex;
+    align-items: center;
+    color:teal;
+    padding: 10px 5px;
+    
+
+}
+.recipient > div > *{
+    margin: 0px;
+}
+.folder{
+    bottom: 6%;
+    position: sticky;
+    padding: 5px;
+    margin-top: 15px;
+}
+
+
+.folder > input{
+   display:none}
+.chatinput{
+    display:flex;
+    align-self: center;
+    position: sticky;
+    z-index:10;
+    bottom:0;
+    padding: 2px;
+}
+.chatinput > input{
+    flex: 70%;
+    min-height: 5vh;
+    border:1px solid lightgray;
+    border-radius: 5px;;
+    background-color: aliceblue;
+}
+.chatinput > input:focus{
+    outline-color: aliceblue;
+}
+
+.recipient > div:last-child{
+    margin-left: 10px;;
+}
+
+.chatcon{
+    overflow: hidden;
+}
+
+.recipient > div > p{
+    font-size: 12px;
+}
+
+.folder > *{
+    margin-right: 10px;
+}
+
+.webcam{
+    position: absolute;
+    z-index: 100;
+    bottom: 200%;
+    
+}
+
+.webcam > button{
+    background-color: plum;
+    border: 1px solid whitesmoke;
+    width: 20%;
+    /* height: 30%; */
+    padding: 10px;
+    margin: 0px auto;
+    position: absolute;
+    top: 72%;
+    left: 50%;
+}
+
+.webcam > :nth-child(2){
+    left: 30%;
+}
+
+.audio{
+    position: absolute;
+    z-index: 100;
+    /* top: -220%; */
+    left: 25%;
+    border: 2px solid gray;
+    padding: 20px;
+    background-color: whitesmoke;
+    bottom: 200%;
+    /* width: 60%; */
+    height: 100px;
+
+}
+
+.recording{
+   animation: blink 2s linear infinite alternate-reverse;
+}
+
+@keyframes blink { 
+
+    from { transform: scale(0.8)} 
+    to { transform: scale(1) }  
+}
+
+.emoji{
+    position: absolute;
+    bottom:16%;
+}
+
+@media only screen and (max-width: 768px) {
+    .chatcon{
+        width:100%
+    }
+    .notify{
+        display: block;
+    }
+}
+
+.notifycon{
+    position: absolute;
+    top: 75%;
+    right: 10px;
+    
+    z-index: 1;
+    background-color: antiquewhite;
+    color: skyblue;
+    min-width: 150px;
+    text-align: center;
+
+}
+
+.notifycon > li{
+    border: 1px solid lightgray;
+    padding: 2px;
+    
+}
+.callAccepted{
+    position: absolute;
+    top: 100px;
+    width: -moz-fit-content;
+    width: 420px;
+    
+}
+.callAccepted > video{
+    width: inherit;
+}
+.video{
+    position: absolute;
+    top: 90px;
+    left: 0;
+    width: -moz-fit-content;
+    width: 150px;
+    /* height: 700px; */
+    z-index: 200;
+    border: 2px solid whitesmoke;
+    box-shadow: 2px 2px 7px gray;
+}
+
+.video > video{
+    width:inherit
+}

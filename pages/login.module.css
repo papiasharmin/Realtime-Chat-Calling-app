@@ -1,0 +1,50 @@
+.log{
+  width:max-content;
+  background-color: lavender;
+  border-radius:15px;
+  box-shadow: 3px 3px 5px whitesmoke;
+  padding:20px;
+  margin: 100px auto;
+   display: flex; 
+   flex-direction: column;
+   justify-content: center;
+
+}
+.img{
+    width: 150px;
+    height: 100px;
+}
+
+
+
+.inputs{
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    border-bottom: 2px solid whitesmoke;
+    padding: 5px 0px;
+    margin: 10px auto
+}
+
+.inputs > input{
+   outline-width:0px ;
+   border: 1px solid gray;
+   padding:10px;
+   border-radius:5px;
+   
+
+}
+.inputs > button{
+    background-color: plum;
+}
+
+.signup{
+    font-size: 12px;
+    padding:2px
+}
+
+.notify{
+    font-size: small;
+    color:cornflowerblue;
+    font-weight: bold;
+}

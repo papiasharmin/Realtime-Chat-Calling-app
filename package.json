@@ -3,17 +3,32 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "heroku-postbuild": "npm run build"
   },
   "dependencies": {
-    "mongodb": "^4.8.1",
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@mui/icons-material": "^5.11.9",
+    "@mui/material": "^5.11.10",
+    "@mui/styled-engine-sc": "^5.11.9",
+    "atob": "^2.1.2",
+    "email-validator": "^2.0.4",
+    "emoji-picker-react": "^4.4.7",
+    "mongodb": "^5.1.0",
     "next": "latest",
+    "next-auth": "^4.19.2",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-webcam": "^7.0.1",
+    "simple-peer": "^9.11.1",
+    "socket.io": "^4.6.1",
+    "socket.io-client": "^4.6.1",
+    "styled-components": "^5.3.6"
   },
   "devDependencies": {
     "@types/node": "18.7.5",
-    "@types/react": "16.9.17",
+    "@types/react": "18.0.0",
     "typescript": "4.6.3"
   }
 }
