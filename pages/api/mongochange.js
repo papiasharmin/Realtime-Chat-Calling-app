@@ -1,5 +1,5 @@
 import clientPromise from '../../lib/mongodb';
-import { pusher } from '../../lib/pusher';
+import  pusher from '../../lib/pusher'
 import { getToken } from 'next-auth/jwt';
 
 export default async function handler(

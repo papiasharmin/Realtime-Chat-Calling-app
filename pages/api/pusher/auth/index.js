@@ -1,7 +1,7 @@
 
 import Pusher from "pusher";
 import pusher from '../../../../lib/pusher'
-import clientPromise from "../../lib/mongodb";
+
 export default async function handler(
   req,
   res
