@@ -6,15 +6,14 @@ import { Suspense } from 'react'
 import { createChathelper } from '../../helper';
 import Usercontext from "../../store";
 import { Notifications} from "@mui/icons-material";
-import io from "socket.io-client";
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { SocketContext } from '../../socketctx';
+import Pushercontext from '../../pushercontext';
+
 
 const Recipient = dynamic(() => import('./recipient'), {suspense: true,})
 const Userdashtooltip = dynamic(() => import('./userdashtooltip'), {suspense: true,})
 
-let socket
 function Userdash({userdetail}){
     const {data:session,status} =useSession()
     const [show, setshow] = useState(null);
@@ -24,14 +23,10 @@ function Userdash({userdetail}){
     const [friends,setfriends] = useState(userdetail.friends)
     const [modal,setmodal] = useState('')
     const [notify,setnotify] = useState(userdetail.notification)
+    const puserctx = useContext(Pushercontext)
     const userctx = useContext(Usercontext)
     const router = useRouter()
-    const { answerCall, call, callAccepted } = useContext(SocketContext);//
-
-    useEffect(() => {    
-      socketInitializer();
-    }, []);
-
+  
     async function updatenotify(email){
       await fetch(`/api/handelnotify`,{
         method:'POST',
@@ -50,26 +45,21 @@ function Userdash({userdetail}){
 
     useEffect(()=>{
       if(router.query.chatid){
-        updatenotify(router.query.chatid)
+        updatenotify(router.query.chatid);
+        puserctx.setfriendemail(router.query.chatid)
       }
     },[router.query.chatid])
 
-    const socketInitializer = async () => {   
-      await fetch("/api/socket");
-      socket = io();
-     
-      socket.emit("newuser",session)
-      socket.on("newNotify", listennotify)
-    }
+    useEffect(()=>{
+      puserctx.setusername(userdetail.email); 
+    },[])
 
-    function listennotify(doc){
-      socket.off("newNotify", listennotify)
-      let notify = doc
-      if(router.query.chatid){
-        notify = doc.filter(item => item.email !== router.query.chatid);
+    useEffect(()=>{
+      if(puserctx.notify.length > 0){
+        setnotify(puserctx.notify)
       }
-      setnotify(notify)
-    }
+     
+    },[puserctx.notify])
 
     const addfriend = async()=> {
         
@@ -82,8 +72,7 @@ function Userdash({userdetail}){
         if(typeof res === 'string'){
           setmodal(res)
         }else{
-           setfriends(res.friends)
-          
+           setfriends(res.friends)   
         }    
     }
 
@@ -186,14 +175,6 @@ function Userdash({userdetail}){
 
             </div>
 
-            {call.isReceivingCall && !callAccepted && (
-            <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-              <h1>{call.name} is calling:</h1>
-              <Button variant="contained" color="primary" onClick={answerCall}>
-                Answer
-              </Button>
-            </div>
-            )}
 
         </div>
     )

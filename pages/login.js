@@ -10,8 +10,6 @@ import { Button } from '@mui/material'
 import Usercontext from '../store'
 import { useContext } from 'react'
 import { useEffect } from 'react'
-import { SocketContext } from '../socketctx'
-// import { useEffect } from 'react'
 
 const Login = ({userdetail}) => {
   
@@ -21,7 +19,7 @@ const Login = ({userdetail}) => {
   const [notify,setnotify] = useState('')
   const router = useRouter()
   const userctx = useContext(Usercontext)
-  const {me} = useContext(SocketContext)
+  
 
   const login = async (e)=>{
     e.preventDefault();
@@ -33,9 +31,6 @@ const Login = ({userdetail}) => {
     })
     
     if(!session){
-
-      
-    
       setnotify(result?.error ? result?.error: '' )
       setTimeout(()=> setnotify(''),4000)
     }  
@@ -47,17 +42,18 @@ const Login = ({userdetail}) => {
 
   async function getdata(){
     
-    await updatestatus('online',me)
+    await updatestatus('online')
     let user = await fetch(`/api/getdata/${session.user.email}`)
     let userdetail = await user.json()
     localStorage.setItem('user',JSON.stringify(userdetail))
+    
     router.push(`/${session.user.email}`)
 
   }
 
+
   useEffect(()=>{
-    if(session){
-      console.log(session)
+    if(session){ 
       getdata()
       
 

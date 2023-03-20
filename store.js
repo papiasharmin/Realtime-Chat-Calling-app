@@ -10,6 +10,8 @@ import {useRouter} from 'next/router'
 
 export function Userprovider(props){
     const [userdetail,setuserdetail] = useState({})
+    const [userName, setUserName] = useState('');
+    const [roomName, setRoomName] = useState('');
     
     async function setuser(user){
         setuserdetail(user)
@@ -30,6 +32,11 @@ export function Userprovider(props){
           localStorage.setItem('user',JSON.stringify(data))   
     }
 
+    function handleCredChange(userName, roomName)  {
+      setUserName(userName);
+      setRoomName(roomName);
+    }
+
     useEffect(()=>{
       if(localStorage.getItem('user')){
         setuserdetail(JSON.parse(localStorage.getItem('user')))
@@ -42,7 +49,7 @@ export function Userprovider(props){
                                     userdetail,
                                     setuser,
                                     updatefavandblock,
-                                   
+                                    handleCredChange
                                      }}>
             {props.children}
         </Usercontext.Provider>

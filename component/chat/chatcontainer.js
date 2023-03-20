@@ -8,11 +8,10 @@ import EmojiPicker from 'emoji-picker-react';
 import Header from "./header";
 import Cam from "./cam";
 import Record from "./record";
-import io from "socket.io-client";
-import { SocketContext } from "../../socketctx";
+import Pushercontext from "../../pushercontext";
 import { useSession } from "next-auth/react";
 
-let socket
+
 function Chatcontainer({friend,user,chat}){
     
     let [showemoji,setshowemoji] = useState(false)
@@ -20,56 +19,14 @@ function Chatcontainer({friend,user,chat}){
     const fileinputref = useRef();
     const imagefileref =useRef();
     const [massagedata,setmassagedata] = useState()
-    const [notify,setnotify] = useState(user.notification)
-    const [friendsocket,setfriendsocket] = useState(friend.socketid)
-    const { answerCall, callAccepted, myVideo, userVideo, callEnded, stream, call, setName, leaveCall,} = useContext(SocketContext);
-    
-    useEffect(() => {    
-        socketInitializer();
-      }, []);
-  
-    const socketInitializer = async () => {   
-        await fetch("/api/socket");
-        socket = io();
-       
-        socket.on("newIncomingMessage", listen)
-        socket.on("newnotify", listennotify)
-        socket.on("socketidChange", (doc)=>{
-            if(doc.email === friend.email){
-                console.log(doc.email)
-                setfriendsocket(doc.socketid)
-            }
-            
-        } )
-    }
-
-    function listen(doc){
-  
-        socket.off("newIncomingMessage", listen)
-        if(doc.users.includes(friend.email)){
-            setmassagedata(showmassage(doc.massages))
-        }
-    }
-
-    function listennotify(doc){
-        socket.off("newNotify", listennotify)
-        let notify = doc
-        if(router.query.chatid){
-
-          notify = doc.filter(item => item.email !== router.query.chatid);
-        }
-        setnotify(notify)
-    }
-    
-
-
-
+    const puserctx = useContext(Pushercontext)
 
     useEffect(()=>{
-       
-       setmassagedata(showmassage(chat))
-    
-     
+        setmassagedata(showmassage(puserctx.newmsg))
+    },[puserctx.newmsg])
+
+    useEffect(()=>{       
+       setmassagedata(showmassage(chat)) 
     },[chat])
 
     function showmassage(msgdata){  
@@ -83,12 +40,9 @@ function Chatcontainer({friend,user,chat}){
       )
     }
  
-    async function sendmassage(data, datatype, dataname){
-        
-        let res = await sendmassagehelper(user.email,friend.email,data,datatype,dataname,user.name)  
-       
+    async function sendmassage(data, datatype, dataname){    
+        let res = await sendmassagehelper(user.email,friend.email,data,datatype,dataname,user.name)     
         setmassagedata(showmassage(res.massages))
-    
     }
 
     function handlefile(){
@@ -99,11 +53,9 @@ function Chatcontainer({friend,user,chat}){
        imagefileref.current.click()
     }
 
-    async function handlechangefile(event){
-        
+    async function handlechangefile(event){  
        const selectedfile = event.target.files;
        filehandeler(selectedfile,sendmassage,selectedfile[0].type,selectedfile[0].name)
-    
     }
 
     function showemojihandlar(){   
@@ -121,7 +73,7 @@ function Chatcontainer({friend,user,chat}){
     
     return(
         <div className={classes.chatcon} >
-            <Header frienddata={friend} user={user} deletemsg={deletemsg} notify={notify} friendsocket={friendsocket}/>
+            <Header frienddata={friend} user={user} deletemsg={deletemsg}/>
             <div className={classes.massagecon} >   
                 {massagedata}  
             </div>
@@ -148,22 +100,6 @@ function Chatcontainer({friend,user,chat}){
                  
             </div>
         
-            {callAccepted && !callEnded && (
-                <div className={classes.callAccepted}>
-                    <video playsInline ref={userVideo} autoPlay  />
-                    <Button variant="contained" color="secondary" startIcon={<PhoneDisabled fontSize="large" />} fullWidth onClick={leaveCall} >
-                        Hang Up
-                    </Button>
-                </div>
-              )}
-            {call.isReceivingCall && !callAccepted && (
-            <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-              <h1>{call.name} is calling:</h1>
-              <Button variant="contained" color="primary" onClick={answerCall}>
-                Answer
-              </Button>
-            </div>
-            )}
         </div>
     )
 }

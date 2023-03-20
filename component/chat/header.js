@@ -5,21 +5,24 @@ import Chattooltip from "./chatcontooltip";
 import classes from './chatcontainer.module.css'
 import {CloseOutlined,MoreHoriz, Notifications, Phone, VideoCall} from "@mui/icons-material";
 import { useRouter } from 'next/router';
-import { SocketContext } from '../../socketctx';
-function Header({frienddata,user,deletemsg,notify,friendsocket}) {
+import Pushercontext from '../../pushercontext';
+
+function Header({frienddata,user,deletemsg}) {
     
-    let [show,setshow] = useState(false)
-    let [ontooltip,setontooltip] = useState(false)
-    let [time,settime] = useState(0)
-    const {setStream,stream,  setName, callUser,id} = useContext(SocketContext);
+    let [show,setshow] = useState(false);
+    let [ontooltip,setontooltip] = useState(false);
+    let [time,settime] = useState(0);
+    const [notify,setnotify] = useState(user.notification)
     const router = useRouter()
-    //const [stream,setStream] = useState(null);
-    const myVideo = useRef()
-    function handelMouseenter(event){  
-      
+    const puserctx = useContext(Pushercontext)
+
+    useEffect(()=>{
+       setnotify(puserctx.notify)
+    },[puserctx.notify])
+
+    function handelMouseenter(event){    
         setshow(event?.currentTarget.id)  
-       // deletenotify()
-     }
+     };
      
      function handelMouseleave(){ 
        settime(setTimeout(()=>{    
@@ -28,15 +31,16 @@ function Header({frienddata,user,deletemsg,notify,friendsocket}) {
            }
          },1000)
        )  
-     }
+     };
+
      function handeltooltipenter(){  
        setontooltip(true)
-     }
+     };
    
      function handeltooltipleave(){
        setontooltip(false)
        setshow('')
-     }
+     };
 
      useEffect(()=>{ 
         if(ontooltip || show){
@@ -63,32 +67,7 @@ function Header({frienddata,user,deletemsg,notify,friendsocket}) {
     })
 
     const notifycount = notify.reduce((total,item)=> total + item.massages,0);
-    const notifydetail = notify.map((item,index)=>{
-      return <li key={index}><p>{`${item.email} : ${item.massages}massages`}</p></li>
-    });
-
-    function call(){
-      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-          .then((currentStream) => {
-            setStream(currentStream);
-            myVideo.current.srcObject = currentStream
-            if(!stream){
-              myVideo.current.srcObject = stream
-            }
-        });
-        }
-        setName(user.name)
-        console.log(friendsocket)
-        console.log(id)
-        
-          callUser(friendsocket)
-        
-        //callUser(id)
-       
-    }
-    
-
+ 
   return (
     <header>
         <div className={classes.recipient}>
@@ -99,7 +78,7 @@ function Header({frienddata,user,deletemsg,notify,friendsocket}) {
             </div>
         </div>
         <div>
-          <div className={classes.notify} style={{display:'none'}}>
+          <div className={classes.notify}>
             <Badge>{notifycount > 0 ? notifycount :''}</Badge>
             <Notifications sx={{ width :20, height:20}} id='notify' color="primary" onMouseEnter={handelMouseenter} onMouseLeave={handelMouseleave}/>
             {show === 'notify' && 
@@ -113,13 +92,12 @@ function Header({frienddata,user,deletemsg,notify,friendsocket}) {
             
             </div>}
           </div>
-            <VideoCall variant="contained" color="primary"  fullWidth onClick={call} />
+            
             <MoreHoriz color="primary" id='tool' onMouseEnter={handelMouseenter} onMouseLeave={handelMouseleave}/> 
             {show === 'tool'  && <Chattooltip  onmouseenter={handeltooltipenter} onmouseleave={handeltooltipleave} user={user} friendemail={frienddata.email} deletemsg={deletemsg}/>}         
             <CloseOutlined sx={{ width :25, height:25}} color="primary" onClick={closechat}/>
         </div>
-        
-         <div className={classes.video}><video playsInline muted ref={myVideo} autoPlay  /></div>
+    
           
     </header>
   )

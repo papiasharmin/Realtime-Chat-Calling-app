@@ -1,5 +1,4 @@
 import * as Emailvalidator from "email-validator"
-
 import atob from 'atob'
 
 export function base64toblob(dataurl){
@@ -86,7 +85,7 @@ export const createChathelper = async(value,userdata,action)=> {
     }
  }
 
- export async function updatestatus(status,socketid){
+ export async function updatestatus(status){
   await fetch(`/api/updatestatus`,{
       method:'POST',
       headers: {
@@ -95,7 +94,7 @@ export const createChathelper = async(value,userdata,action)=> {
         
         status:status,
         lastseen: Date.now(),
-        socketid:socketid
+        
       })
     })
 }
@@ -127,4 +126,6 @@ export async function filehandeler(file,callback,type,name,){
     fileReader.readAsDataURL(imageFile);
   }  
 }
+
+
 

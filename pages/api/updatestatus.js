@@ -10,11 +10,9 @@ export default async function handler(
 
     const client = await clientPromise;
     const db = client.db("user");
-    if(!req.body.status){
-      await db.collection("userdetail").updateOne({email:session.email},{$set:{socketid:req.body.socketid}})
-    }else{
-      await db.collection("userdetail").updateOne({email:session.email},{$set:{status:req.body.status,lastseen:req.body.lastseen,socketid:req.body.socketid}})
-    }
+
+    await db.collection("userdetail").updateOne({email:session.email},{$set:{status:req.body.status,lastseen:req.body.lastseen}})
+    
     const user = await db.collection("userdetail").findOne({email:session.email})
     res.json(user)
 }
