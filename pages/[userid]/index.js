@@ -49,9 +49,9 @@ export async function getServerSideProps({req,res}){
     
     const client = await clientPromise
     const db =  client.db('user');
-  
+    await db.collection("userdetail").updateOne({email:session.email},{$set:{status:'online',lastseen: Date.now()}})
     const user = await db.collection('userdetail').findOne({email:session?.email})
-    console.log(user)
+   
       return { props: {
     userdetail:JSON.stringify(user ? user : {})
    } }
