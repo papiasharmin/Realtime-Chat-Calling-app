@@ -29,6 +29,7 @@ const Login = ({userdetail}) => {
       email: logemailref.current?.value,
       password: logpasswordref.current?.value
     })
+    console.log(result)
     
     if(!session){
       setnotify(result?.error ? result?.error: '' )
