@@ -17,12 +17,12 @@ function User({userdetail}){
     const router = useRouter()
     //const userctx = useContext(Usercontext)
 
-    if(status == 'loading'){
-       return <Loading/>
-    }else if(!session){
-      router.push(`/login`);
-      return
-    }
+    // if(status == 'loading'){
+    //    return <Loading/>
+    // }else if(!session){
+    //   router.push(`/login`);
+    //   return
+    // }
     
     return(
 
@@ -33,7 +33,7 @@ function User({userdetail}){
             </Head>
 
             <Suspense fallback={`Loading...`}>
-              <Userdash userdetail={JSON.parse(userdetail)}/>
+              {session && <Userdash userdetail={JSON.parse(userdetail)}/>}
             </Suspense>  
         </div>
     )

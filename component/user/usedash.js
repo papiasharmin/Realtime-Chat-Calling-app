@@ -9,10 +9,11 @@ import { Notifications} from "@mui/icons-material";
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Pushercontext from '../../pushercontext';
+import Recipient from './recipient';
+import Userdashtooltip from './userdashtooltip'
 
-
-const Recipient = dynamic(() => import('./recipient'), {suspense: true,})
-const Userdashtooltip = dynamic(() => import('./userdashtooltip'), {suspense: true,})
+// const Recipient = dynamic(() => import('./recipient'), {suspense: true,})
+// const Userdashtooltip = dynamic(() => import('./userdashtooltip'), {suspense: true,})
 
 function Userdash({userdetail}){
     const {data:session,status} =useSession()
@@ -51,6 +52,7 @@ function Userdash({userdetail}){
     },[router.query.chatid])
 
     useEffect(()=>{
+      console.log('PROBLEMDETECTED')
       puserctx.setusername(userdetail.email); 
       localStorage.setItem('user',JSON.stringify(userdetail))
     },[])
