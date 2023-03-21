@@ -7,21 +7,22 @@ import { useSession } from "next-auth/react";
 import { getToken } from "next-auth/jwt";
 import clientPromise from "../../lib/mongodb";
 import { useRouter } from "next/router";
-import { useContext } from "react";
-import Usercontext from "../../store";
-import io from "socket.io-client";
+import Userdash from "../../component/user/usedash";
 
-const Userdash = dynamic(() => import("../../component/user/usedash"), {suspense: true,})
+
+
+//const Userdash = dynamic(() => import("../../component/user/usedash"), {suspense: true,})
 function User({userdetail}){
     const {data:session,status} = useSession()
     const router = useRouter()
-    const userctx = useContext(Usercontext)
+    //const userctx = useContext(Usercontext)
 
     if(status == 'loading'){
        return <Loading/>
     }else if(!session){
-      router.push(`/login`)
-    }else if(session){
+      router.push(`/login`);
+      return
+    }
     
     return(
 
@@ -32,12 +33,12 @@ function User({userdetail}){
             </Head>
 
             <Suspense fallback={`Loading...`}>
-             <p>HELLO</p>
+              <Userdash userdetail={JSON.parse(userdetail)}/>
             </Suspense>  
         </div>
     )
   }
-}
+
 
 export default User;
 
