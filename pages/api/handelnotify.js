@@ -12,5 +12,5 @@ export default async function handler(
     const db = client.db("user");
     await db.collection("userdetail").updateOne({email:session.email},{$pull:{notification:{email:req.body.email}} });
    
-    res.json()
+    res.json('')
 }

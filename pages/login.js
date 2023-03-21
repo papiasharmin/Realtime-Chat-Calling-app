@@ -23,7 +23,7 @@ const Login = ({userdetail}) => {
 
   const login = async (e)=>{
     e.preventDefault();
-
+   try{
     const result = await signIn('credentials',{
       redirect:false,
       email: logemailref.current?.value,
@@ -33,10 +33,11 @@ const Login = ({userdetail}) => {
     if(!session){
       setnotify(result?.error ? result?.error: '' )
       setTimeout(()=> setnotify(''),2000)
-    }else if(session && status === 'authenticated'){
-      updatestatus('online')
-      router.push(`/${session.user.email}`)
     }
+  } catch(error){
+    console.log(error)
+
+   }
   }
 
   function signup(){
@@ -56,14 +57,14 @@ const Login = ({userdetail}) => {
   // }
 
 
-  // useEffect(()=>{
-  //   if(session){ 
-  //     getdata()
-      
+  useEffect(()=>{
+    if(session){ 
+      updatestatus('online')
+      router.push(`/${session.user.email}`)
 
-  //   }
+    }
 
-  // },[session])
+  },[session])
 
   return (
     <>

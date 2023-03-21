@@ -52,8 +52,20 @@ export function Pusherprovider(props){
         let notify = doc
         if(friendemail){
           notify = doc.filter(item => item.email !== friendemail);
-           const res = await fetch(`/api/getmassage`)
-           setnewmsg(res.json())
+           const res = await fetch(`/api/getmassage`,{
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },body:JSON.stringify({
+                user:username,
+                friend:friendemail
+      
+            })
+      
+          })
+           let data = await res.json()
+           console.log(data)
+           setnewmsg(data)
 
         }
         setnotify(notify)
