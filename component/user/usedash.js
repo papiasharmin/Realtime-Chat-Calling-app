@@ -52,6 +52,7 @@ function Userdash({userdetail}){
 
     useEffect(()=>{
       puserctx.setusername(userdetail.email); 
+      localStorage.setItem('user',JSON.stringify(userdetail))
     },[])
 
     useEffect(()=>{

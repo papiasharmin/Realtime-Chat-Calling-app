@@ -35,7 +35,7 @@ const Signup = (props) => {
     const res = await data.json();
     setregnotify(res)
     setTimeout(()=> {setregnotify('')
-    router.push(`/login`)},4000)
+    router.push(`/login`)},2000)
     
   }
 

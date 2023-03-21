@@ -32,34 +32,38 @@ const Login = ({userdetail}) => {
     
     if(!session){
       setnotify(result?.error ? result?.error: '' )
-      setTimeout(()=> setnotify(''),4000)
-    }  
+      setTimeout(()=> setnotify(''),2000)
+    }else if(session && status === 'authenticated'){
+      updatestatus('online')
+      router.push(`/${session.user.email}`)
+    }
   }
 
   function signup(){
     router.push(`/signup`)
   }
 
-  async function getdata(){
+  // async function getdata(){
     
-    await updatestatus('online')
-    let user = await fetch(`/api/getdata/${session.user.email}`)
-    let userdetail = await user.json()
-    localStorage.setItem('user',JSON.stringify(userdetail))
+  //   //let user = await 
+  //   updatestatus('online')
+  //   //let user = await fetch(`/api/getdata/${session.user.email}`)
+  //   //let userdetail = await user.json()
+  //   //localStorage.setItem('user',JSON.stringify(userdetail))
     
-    router.push(`/${session.user.email}`)
+  //   router.push(`/${session.user.email}`)
 
-  }
+  // }
 
 
-  useEffect(()=>{
-    if(session){ 
-      getdata()
+  // useEffect(()=>{
+  //   if(session){ 
+  //     getdata()
       
 
-    }
+  //   }
 
-  },[session])
+  // },[session])
 
   return (
     <>
