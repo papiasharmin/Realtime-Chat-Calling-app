@@ -32,7 +32,7 @@ function User({userdetail}){
             </Head>
 
             <Suspense fallback={`Loading...`}>
-              <Userdash userdetail={JSON.parse(userdetail)}/>
+             <p>HELLO</p>
             </Suspense>  
         </div>
     )
@@ -55,3 +55,5 @@ export async function getServerSideProps({req,res}){
     userdetail:JSON.stringify(user)
    } }
 }
+
+// <Userdash userdetail={JSON.parse(userdetail)}/>
