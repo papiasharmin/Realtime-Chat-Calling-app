@@ -39,6 +39,6 @@ changeStream1.on("change", (next)=>changenotify(next) );
     
 
    
-    res.json('')
+res.json({message: "Hello, World!"})
 }
 

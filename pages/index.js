@@ -12,10 +12,10 @@ export default function Home() {
    if(status == 'loading'){
     return <p>..LODING</p>
    }else if(!session){
-      console.log('LOOOOOGIIII')
+      
      router.push(`/login`)
    }else if(session){  
-      //let user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) :{}
+      
       router.push(`/${session.user.email}`)
    }
 }

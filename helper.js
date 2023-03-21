@@ -86,7 +86,8 @@ export const createChathelper = async(value,userdata,action)=> {
  }
 
  export async function updatestatus(status){
-  await fetch(`/api/updatestatus`,{
+  try{
+    const res = await fetch(`/api/updatestatus`,{
       method:'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -97,6 +98,13 @@ export const createChathelper = async(value,userdata,action)=> {
         
       })
     })
+    const data = await res.json();
+    console.log(data)
+
+  }catch(error){
+     console.log(error)
+  }
+
 }
 
 export function gettime(date){
