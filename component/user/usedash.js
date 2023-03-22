@@ -40,6 +40,9 @@ function Userdash(){
       if(userdetail){
         setfriends(userdetail.friends);
         setnotify(userdetail.notification)
+        console.log('PROBLEMDETECTED')
+        puserctx.setusername(userdetail.email); 
+        localStorage.setItem('user',JSON.stringify(userdetail))
 
       }
 
@@ -68,18 +71,14 @@ function Userdash(){
       }
     },[router.query.chatid])
 
-    // useEffect(()=>{
-    //   console.log('PROBLEMDETECTED')
-    //   puserctx.setusername(userdetail.email); 
-    //   localStorage.setItem('user',JSON.stringify(userdetail))
-    // },[])
+  
 
-    // useEffect(()=>{
-    //   if(puserctx.notify.length > 0){
-    //     setnotify(puserctx.notify)
-    //   }
+    useEffect(()=>{
+      if(puserctx.notify.length > 0){
+        setnotify(puserctx.notify)
+      }
      
-    // },[puserctx.notify])
+    },[puserctx.notify])
 
     const addfriend = async()=> {
         
@@ -137,6 +136,8 @@ function Userdash(){
        router.push(`/${router.query.userid}/${email}`)
     }
 
+    console.log(friends)
+
     const useravatar = <div className={classes.avatarbor} id='avatar' onMouseEnter={handelMouseenter} onMouseLeave={handelMouseleave}>
                           <Badge className={userdetail?.status === 'offline' ? classes.badgeof : classes.badge} ></Badge>
                           <Avatar src={userdetail?.photo ? userdetail.photo : ''} width={50} height={50} >{userdetail?.email.slice(0,1)}</Avatar>
@@ -151,9 +152,9 @@ function Userdash(){
                 <div className={classes.avatar}>
                     {useravatar}<span>{userdetail.name}</span>
                     {show === 'avatar' && 
-                    <Suspense fallback={`Loading...`}>
+                    
                         <Userdashtooltip path={userdetail._id} onmouseenter={handeltooltipenter} onmouseleave={handeltooltipleave}/>
-                    </Suspense>} 
+                    } 
                 </div>
                 <div>
                     {notifycount > 0  && <div className={classes.badgenotify}><span>{notifycount}</span></div>}
@@ -186,10 +187,10 @@ function Userdash(){
             }
             <div className={classes.recipientcon}>
               <p>Your Friends</p>
-              {friends?.map((item,index)=>
-               
-                    <Recipient  key={index}  friend={item} deletefriend={deletefriend} fav={userdetail.favourite.includes(item)}/>
-                
+              {friends.map((item,index)=>{
+                   console.log(item)   
+                  return  <Recipient  key={index}  friend={item} deletefriend={deletefriend} fav={userdetail.favourite.includes(item)}/>
+              }
               )}
 
             </div>
