@@ -7,7 +7,7 @@ import { getToken } from "next-auth/jwt";
 import clientPromise from "../../lib/mongodb";
 import { useEffect,useState } from "react";
 import { useRouter } from "next/router";
-//import Chatcontainer from "../../component/chat/chatcontainer";
+import Chatcontainer from "../../component/chat/chatcontainer";
 
 
 //const Userdash = dynamic(() => import("../../component/user/usedash"), {suspense: true,})
@@ -27,13 +27,13 @@ function Chat({userdetail,frienddetail,chat}){
                 <title>Chat with</title>
                 <meta name="description" content="My Office App" />  
             </Head>
-            <p>HELLO</p>
+            <Chatcontainer user={userdetail} friend={frienddetail} chat={chat}/>
 
         </div>
     )
 }
 
-export default Chat;
+export default dynamic(()=> Promise.resolve(Chat),{ssr:false})
 
 export async function getServerSideProps({req,query,params}){
 
