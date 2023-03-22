@@ -1,76 +1,43 @@
+
 import Head from "next/head";
+import classes from './index.module.css'
+import Loading from "../../component/ui/loding";
+import { Suspense,useEffect } from 'react'
+import { useSession } from "next-auth/react";
+import { getToken } from "next-auth/jwt";
+import clientPromise from "../../lib/mongodb";
+import { useRouter } from "next/router";
+import Userdash from "../../component/user/usedash";
+
+
 function User(){
-  //const {data:session,status} = useSession()
-  //const router = useRouter()
-  //const userctx = useContext(Usercontext)
+    const {data:session,status} = useSession()
+    const router = useRouter()
+    //const userctx = useContext(Usercontext)
 
-  // if (status === "loading") {
-  //   return <p>Loading...</p>
-  // }else if (!session) {
-  //   router.push(`/login`)
-  // }
-  
-  return(
+    if (status === "loading") {
+      return <p>Loading...</p>
+    }else if (!session) {
+      router.push(`/login`)
+    }
+    
+    return(
 
-      <div className=''>
-          <Head>
-              <title>user</title>
-              <meta name="description" content="My Office App" />  
-          </Head>
+        <div className={classes.chatcon}>
+            <Head>
+                <title>user</title>
+                <meta name="description" content="My Office App" />  
+            </Head>
 
-          
-             <p>hello</p>
-           
-      </div>
-  )
-}
+            
+              {session && <p>hello</p>}
+             
+        </div>
+    )
+  }
 
 
 export default User;
-
-
-// import Head from "next/head";
-// import classes from './index.module.css'
-// import Loading from "../../component/ui/loding";
-// import dynamic from 'next/dynamic'
-// import { Suspense,useEffect } from 'react'
-// import { useSession } from "next-auth/react";
-// import { getToken } from "next-auth/jwt";
-// import clientPromise from "../../lib/mongodb";
-// import { useRouter } from "next/router";
-// import Userdash from "../../component/user/usedash";
-
-
-
-// //const Userdash = dynamic(() => import("../../component/user/usedash"), {suspense: true,})
-// function User(){
-//     const {data:session,status} = useSession()
-//     const router = useRouter()
-//     //const userctx = useContext(Usercontext)
-
-//     if (status === "loading") {
-//       return <p>Loading...</p>
-//     }else if (!session) {
-//       router.push(`/login`)
-//     }
-    
-//     return(
-
-//         <div className={classes.chatcon}>
-//             <Head>
-//                 <title>user</title>
-//                 <meta name="description" content="My Office App" />  
-//             </Head>
-
-            
-//               {session && <p>hello</p>}
-             
-//         </div>
-//     )
-//   }
-
-
-// export default User;
 
 // export async function getServerSideProps({req,res}){
   
