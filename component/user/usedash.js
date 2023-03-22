@@ -46,8 +46,12 @@ function Userdash(){
         localStorage.setItem('user',JSON.stringify(userdetail))
 
       }
+      if(router.query.chatid){
+        updatenotify(router.query.chatid);
+        puserctx.setfriendemail(router.query.chatid)
+      }
 
-    },[userdetail])
+    },[userdetail,router.query.chatid])
   
     async function updatenotify(email){
       await fetch(`/api/handelnotify`,{
@@ -58,19 +62,23 @@ function Userdash(){
         body: JSON.stringify({email:email})
        })
       setnotify(prev => {
-        let arr = prev
-        arr = arr.filter(item => item.email !== email);
+        let arr
+        if(prev){
+           arr = prev
+          arr = arr.filter(item => item.email !== email);
+        }
+
         return arr
      })
 
     }
 
-    useEffect(()=>{
-      if(router.query.chatid){
-        updatenotify(router.query.chatid);
-        puserctx.setfriendemail(router.query.chatid)
-      }
-    },[router.query.chatid])
+    // useEffect(()=>{
+    //   if(router.query.chatid){
+    //     updatenotify(router.query.chatid);
+    //     puserctx.setfriendemail(router.query.chatid)
+    //   }
+    // },[router.query.chatid])
 
   
 

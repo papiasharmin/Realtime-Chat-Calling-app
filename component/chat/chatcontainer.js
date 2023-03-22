@@ -39,7 +39,7 @@ function Chatcontainer(){
   
       useEffect(()=>{
         getdata()
-      },[])
+      },[router.query.chatid])
 
       async function getchat(user,friend){
         const res = await fetch(`/api/getmassage`,{
@@ -69,6 +69,7 @@ function Chatcontainer(){
       },[user?.email,friend?.email])
 
     useEffect(()=>{
+        console.log(puserctx.newmsg)
         setmassagedata(showmassage(puserctx.newmsg))
     },[puserctx.newmsg])
 

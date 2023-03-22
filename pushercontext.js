@@ -64,8 +64,8 @@ export function Pusherprovider(props){
       
           })
            let data = await res.json()
-           console.log(data)
-           setnewmsg(data)
+           console.log(data.massages)
+           setnewmsg(data.massages)
 
         }
         setnotify(notify)

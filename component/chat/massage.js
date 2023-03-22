@@ -25,7 +25,7 @@ function Massage(props){
                                 <FileDownloadOutlined size="small" color="disabled"/>{filetype}
                             </a>
                         </div> : 
-                        <p className={props.massage.user === user.email? classes.massageu : classes.massage}>{props.massage.massage}</p>
+                        <p className={props.massage.user === router.query.userid? classes.massageu : classes.massage}>{props.massage.massage}</p>
     return(
         <>
             <div className={props.massage.writer === router.query.userid? classes.massageconu : classes.massagecon}>
