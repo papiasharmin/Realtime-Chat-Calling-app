@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import Userdash from "../../component/user/usedash";
 
 
-function User(){
+function User({userdetail}){
     const {data:session,status} = useSession()
     const router = useRouter()
     //const userctx = useContext(Usercontext)
@@ -39,7 +39,7 @@ function User(){
 
 export default User;
 
-// export async function getServerSideProps({req,res}){
+// export const getServerSideProps= async({req,res}) =>{
   
 //     const secret = process.env.NEXTAUTH_SECRET
 //     const session = await getToken({req, secret})
@@ -53,12 +53,20 @@ export default User;
 //     userdetail:JSON.stringify(user ? user : {})
 //    } }
 
- 
- 
-  
-  
 
 // }
 
 // <Userdash userdetail={JSON.parse(userdetail)}/>
-//<Suspense fallback={`Loading...`}>
+export const getServerSideProps= async({req,res}) =>{
+
+  const secret = process.env.NEXTAUTH_SECRET;
+  const session = await getToken({req,secret});
+  const client = await clientPromise;
+  const db = client.db("user");
+  await db.collection("userdetail").updateOne({email:session.email},{$set:{status:'online'}})
+  const userdetail = await db.collection("userdetail").findOne({email:session?.email});
+  
+  return {
+       props: {userdetail:JSON.stringify(userdetail)}
+  }
+}
