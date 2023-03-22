@@ -1,15 +1,16 @@
 import Head from "next/head";
 import classes from './index.module.css'
 import Loading from "../../component/ui/loding";
-import dynamic from 'next/dynamic';
-import { Suspense } from 'react';
+
 import { useSession } from "next-auth/react";
 import { getToken } from "next-auth/jwt";
 import clientPromise from "../../lib/mongodb";
 import { useEffect,useState } from "react";
 import { useRouter } from "next/router";
-const Userdash = dynamic(() => import("../../component/user/usedash"), {suspense: true,})
-const Chatcontainer = dynamic(() => import('../../component/chat/chatcontainer'), { suspense: true,})
+
+
+//const Userdash = dynamic(() => import("../../component/user/usedash"), {suspense: true,})
+//const Chatcontainer = dynamic(() => import('../../component/chat/chatcontainer'), { suspense: true,})
 
 function Chat({userdetail,frienddetail,chat}){
     const {data:session,status} = useSession()
@@ -23,13 +24,8 @@ function Chat({userdetail,frienddetail,chat}){
                 <title>Chat with</title>
                 <meta name="description" content="My Office App" />  
             </Head>
+             <p>HELLO</p>
 
-            <Suspense fallback={`Loading...`}>
-                <div className={classes.userdis}>
-               <Userdash userdetail={JSON.parse(userdetail)} />
-               </div>
-               <Chatcontainer  friend={JSON.parse(frienddetail)} user={(JSON.parse(userdetail))} chat={JSON.parse(chat)}/>
-            </Suspense>  
         </div>
     )
 }

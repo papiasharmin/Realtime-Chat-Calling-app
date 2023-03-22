@@ -61,7 +61,7 @@ const Login = ({userdetail}) => {
   useEffect(()=>{
     if(session){ 
       //updatestatus('online')
-      router.push(`/${session.user.email}/profile`)
+      router.push(`/${session.user.email}`)
 
     }
 
