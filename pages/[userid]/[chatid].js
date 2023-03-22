@@ -17,7 +17,9 @@ function Chat({userdetail,frienddetail,chat}){
     const {data:session,status} = useSession()
 
     if(status == 'loading') return <Loading/>
-
+     console.log(userdetail)
+     console.log(frienddetail)
+     console.log(chat)
 
     return(
         <div className={classes.chatcon}>
@@ -25,7 +27,7 @@ function Chat({userdetail,frienddetail,chat}){
                 <title>Chat with</title>
                 <meta name="description" content="My Office App" />  
             </Head>
-            <Chatcontainer friend={frienddetail} user={userdetail} chat={chat}/>
+            <p>HELLO</p>
 
         </div>
     )
