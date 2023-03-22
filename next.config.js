@@ -21,5 +21,5 @@ const nextConfig = {
   }
   
   module.exports = nextConfig
-  //sgpdRz7U4BTs06oKhp47gDy48LmO95
+  
   
