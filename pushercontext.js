@@ -53,6 +53,7 @@ export function Pusherprovider(props){
         let notify = doc
         
         if(friendemail){
+            console.log(friendemail)
           notify = doc.filter(item => item.email !== friendemail  );
           if(doc.find(item=>item.email == friendemail )){
 
