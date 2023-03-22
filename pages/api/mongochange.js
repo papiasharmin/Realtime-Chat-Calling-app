@@ -28,7 +28,7 @@ const user= userdb.collection("userdetail");
 
 async function changenotify(next){ 
   const key = Object.keys(next.updateDescription.updatedFields)   
-    if(key[0].startsWith("notification") && next.fullDocument.email !== session.email){
+    if(key[0].startsWith("notification") && next.fullDocument.email == session.email){
       pusher.trigger("chat","newNotify",next.fullDocument.notification);  
       console.log("received a cng notify COLLECTION?????: \t",next); 
 

@@ -51,7 +51,10 @@ export function Pusherprovider(props){
     async function listennotify(doc){
         let notify = doc
         if(friendemail){
-          notify = doc.filter(item => item.email !== friendemail);
+          notify = doc.filter(item => item.email !== friendemail && item.email !== username );
+          if(doc.find(item=>item.email == friendemail )){
+
+          
            const res = await fetch(`/api/getmassage`,{
             method: 'POST',
             headers: {
@@ -66,7 +69,7 @@ export function Pusherprovider(props){
            let data = await res.json()
            console.log(data.massages)
            setnewmsg(data.massages)
-
+           }
         }
         setnotify(notify)
     }
