@@ -8,10 +8,10 @@ import { useSession } from "next-auth/react";
 import { Suspense, useEffect,useState } from "react";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
-//import Chatcontainer from "../../component/chat/chatcontainer";
 
 
-//const Userdash = dynamic(() => import("../../component/user/usedash"), {suspense: true,})
+
+const Userdash = dynamic(() => import("../../component/user/usedash"), {suspense: true,})
 const Chatcontainer = dynamic(() => import('../../component/chat/chatcontainer'), { suspense: true,})
 
 function Chat(){
@@ -27,7 +27,8 @@ function Chat(){
                 <meta name="description" content="My Office App" />  
             </Head>
             <Suspense fallback={`loading...`}>
-            <Chatcontainer />
+                <Userdash/>
+                <Chatcontainer />
             </Suspense>
         </div>
     )

@@ -19,9 +19,9 @@ function Chatcontainer(){
     const  massageinputref = useRef();
     const fileinputref = useRef();
     const imagefileref =useRef();
-    const [user,setuser] = useState();
-    const [friend,setfriend] = useState();
-    const [massagedata,setmassagedata] = useState()
+    const [user,setuser] = useState(null);
+    const [friend,setfriend] = useState(null);
+    const [massagedata,setmassagedata] = useState(null)
     const puserctx = useContext(Pushercontext)
     const router = useRouter()
 
