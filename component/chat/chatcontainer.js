@@ -10,24 +10,69 @@ import Cam from "./cam";
 import Record from "./record";
 import Pushercontext from "../../pushercontext";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 
-function Chatcontainer({friend,user,chat}){
+function Chatcontainer(){
     
     let [showemoji,setshowemoji] = useState(false)
     const  massageinputref = useRef();
     const fileinputref = useRef();
     const imagefileref =useRef();
+    const [user,setuser] = useState();
+    const [friend,setfriend] = useState();
     const [massagedata,setmassagedata] = useState()
     const puserctx = useContext(Pushercontext)
+    const router = useRouter()
+
+    async function getdata(){
+        const resuser = await fetch(`/api/getdata`);
+        const data1 = await resuser.json();
+        const resfrnd = await fetch(`/api/getdata/${router.query.chatid}`);
+        const data2 = await resfrnd.json();
+  
+
+        setuser(data1);
+        setfriend(data2)
+  
+      }
+  
+      useEffect(()=>{
+        getdata()
+      },[])
+
+      async function getchat(user,friend){
+        const res = await fetch(`/api/getmassage`,{
+            method:'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },body:JSON.stringify({
+               user,
+               friend
+              
+            })
+          }
+
+        );
+        const data = await res.json();
+        console.log(data)
+        setmassagedata(showmassage(data.massages)) 
+      }
+
+      useEffect(()=>{
+        if(user && friend){
+            console.log(user)
+            console.log(friend)
+            getchat(user.email,friend.email)
+        }
+
+      },[user?.email,friend?.email])
 
     useEffect(()=>{
         setmassagedata(showmassage(puserctx.newmsg))
     },[puserctx.newmsg])
 
-    useEffect(()=>{       
-       setmassagedata(showmassage(chat)) 
-    },[chat])
+
 
     function showmassage(msgdata){  
         return msgdata.map((massage)=>
@@ -71,8 +116,8 @@ function Chatcontainer({friend,user,chat}){
         setmassagedata(showmassage(res.massages))
     }
     
-    return(
-        <div className={classes.chatcon} >
+    
+    const con = user && friend ?    <div className={classes.chatcon} >
             <Header frienddata={friend} user={user} deletemsg={deletemsg}/>
             <div className={classes.massagecon} >   
                 {massagedata}  
@@ -100,8 +145,10 @@ function Chatcontainer({friend,user,chat}){
                  
             </div>
         
-        </div>
-    )
+        </div> : <p>loading</p>
+
+        return con
+    
 }
 export default Chatcontainer;
 
