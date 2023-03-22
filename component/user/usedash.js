@@ -1,7 +1,7 @@
 import {Avatar,Button,Badge} from '@mui/material';
 import classes from "./userdash.module.css"
 import {useEffect, useRef, useState,useContext} from "react"
-import { createChathelper } from '../../helper';
+import { createChathelper, updatestatus } from '../../helper';
 import Usercontext from "../../store";
 import { Notifications} from "@mui/icons-material";
 import { useSession } from 'next-auth/react';
@@ -26,6 +26,7 @@ function Userdash(){
     const router = useRouter()
 
     async function getdata(){
+      await updatestatus('online')
       const res = await fetch(`/api/getdata`);
       const data = await res.json();
       setuserdetail(data);
@@ -187,7 +188,7 @@ function Userdash(){
             }
             <div className={classes.recipientcon}>
               <p>Your Friends</p>
-              {friends.map((item,index)=>{
+              {friends?.map((item,index)=>{
                    console.log(item)   
                   return  <Recipient  key={index}  friend={item} deletefriend={deletefriend} fav={userdetail.favourite.includes(item)}/>
               }

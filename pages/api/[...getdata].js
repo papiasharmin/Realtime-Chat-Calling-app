@@ -10,7 +10,7 @@ export default async function handler(
     
     const client = await clientPromise;
     const db = client.db("user");
-    const user = await db.collection("userdetail").findOne({email: session.email});
+    const user = await db.collection("userdetail").findOne({email: req.query.getdata?.[1] ? req.query.getdata?.[1] :session.email});
    
     res.json(user)
 }
