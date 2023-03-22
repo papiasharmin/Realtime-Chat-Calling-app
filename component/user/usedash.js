@@ -15,15 +15,15 @@ import Userdashtooltip from './userdashtooltip'
 // const Recipient = dynamic(() => import('./recipient'), {suspense: true,})
 // const Userdashtooltip = dynamic(() => import('./userdashtooltip'), {suspense: true,})
 
-function Userdash({userdetail}){
+function Userdash(){
     const {data:session,status} =useSession()
     const [show, setshow] = useState(null);
     const [ontooltip,setontooltip] = useState(false)
     const [time,settime] = useState();
     const chatinputref = useRef(null);
-    const [friends,setfriends] = useState(userdetail.friends)
+    const [friends,setfriends] = useState()
     const [modal,setmodal] = useState('')
-    const [notify,setnotify] = useState(userdetail.notification)
+    const [notify,setnotify] = useState()
     const puserctx = useContext(Pushercontext)
     const userctx = useContext(Usercontext)
     const router = useRouter()
@@ -120,14 +120,14 @@ function Userdash({userdetail}){
        router.push(`/${router.query.userid}/${email}`)
     }
 
-    const useravatar = <div className={classes.avatarbor} id='avatar' onMouseEnter={handelMouseenter} onMouseLeave={handelMouseleave}>
-                          <Badge className={userdetail.status === 'offline' ? classes.badgeof : classes.badge} ></Badge>
-                          <Avatar src={userdetail.photo ? userdetail.photo : ''} width={50} height={50} >{userdetail.email.slice(0,1)}</Avatar>
-                       </div>
-    const notifycount = notify.reduce((total,item)=> total + item.massages,0);
-    const notifydetail = notify.map((item,index)=>{
-      return <li key={index} onClick={()=>modifynotify(item.email)}><p>{`${item.massages} ${item.massages >1 ? 'massages' : 'massage'} from ${item.name} `}</p></li>
-    });
+    // const useravatar = <div className={classes.avatarbor} id='avatar' onMouseEnter={handelMouseenter} onMouseLeave={handelMouseleave}>
+    //                       <Badge className={userdetail.status === 'offline' ? classes.badgeof : classes.badge} ></Badge>
+    //                       <Avatar src={userdetail.photo ? userdetail.photo : ''} width={50} height={50} >{userdetail.email.slice(0,1)}</Avatar>
+    //                    </div>
+    // const notifycount = notify.reduce((total,item)=> total + item.massages,0);
+    // const notifydetail = notify.map((item,index)=>{
+    //   return <li key={index} onClick={()=>modifynotify(item.email)}><p>{`${item.massages} ${item.massages >1 ? 'massages' : 'massage'} from ${item.name} `}</p></li>
+    // });
    
     return(
         <div className={classes.sidebarcon}>
