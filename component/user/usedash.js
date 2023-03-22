@@ -1,8 +1,6 @@
 import {Avatar,Button,Badge} from '@mui/material';
 import classes from "./userdash.module.css"
 import {useEffect, useRef, useState,useContext} from "react"
-import dynamic from 'next/dynamic'
-import { Suspense } from 'react'
 import { createChathelper } from '../../helper';
 import Usercontext from "../../store";
 import { Notifications} from "@mui/icons-material";
@@ -12,8 +10,6 @@ import Pushercontext from '../../pushercontext';
 import Recipient from './recipient';
 import Userdashtooltip from './userdashtooltip'
 
-// const Recipient = dynamic(() => import('./recipient'), {suspense: true,})
-// const Userdashtooltip = dynamic(() => import('./userdashtooltip'), {suspense: true,})
 
 function Userdash(){
     const {data:session,status} =useSession()
@@ -21,12 +17,33 @@ function Userdash(){
     const [ontooltip,setontooltip] = useState(false)
     const [time,settime] = useState();
     const chatinputref = useRef(null);
-    const [friends,setfriends] = useState()
+    const [userdetail,setuserdetail] = useState(null)
+    const [friends,setfriends] = useState(null)
     const [modal,setmodal] = useState('')
-    const [notify,setnotify] = useState()
+    const [notify,setnotify] = useState(null)
     const puserctx = useContext(Pushercontext)
     const userctx = useContext(Usercontext)
     const router = useRouter()
+
+    async function getdata(){
+      const res = await fetch(`/api/getdata`);
+      const data = await res.json();
+      setuserdetail(data);
+
+    }
+
+    useEffect(()=>{
+      getdata()
+    },[])
+
+    useEffect(()=>{
+      if(userdetail){
+        setfriends(userdetail.friends);
+        setnotify(userdetail.notification)
+
+      }
+
+    },[userdetail])
   
     async function updatenotify(email){
       await fetch(`/api/handelnotify`,{
@@ -120,17 +137,16 @@ function Userdash(){
        router.push(`/${router.query.userid}/${email}`)
     }
 
-    // const useravatar = <div className={classes.avatarbor} id='avatar' onMouseEnter={handelMouseenter} onMouseLeave={handelMouseleave}>
-    //                       <Badge className={userdetail.status === 'offline' ? classes.badgeof : classes.badge} ></Badge>
-    //                       <Avatar src={userdetail.photo ? userdetail.photo : ''} width={50} height={50} >{userdetail.email.slice(0,1)}</Avatar>
-    //                    </div>
-    // const notifycount = notify.reduce((total,item)=> total + item.massages,0);
-    // const notifydetail = notify.map((item,index)=>{
-    //   return <li key={index} onClick={()=>modifynotify(item.email)}><p>{`${item.massages} ${item.massages >1 ? 'massages' : 'massage'} from ${item.name} `}</p></li>
-    // });
+    const useravatar = <div className={classes.avatarbor} id='avatar' onMouseEnter={handelMouseenter} onMouseLeave={handelMouseleave}>
+                          <Badge className={userdetail?.status === 'offline' ? classes.badgeof : classes.badge} ></Badge>
+                          <Avatar src={userdetail?.photo ? userdetail.photo : ''} width={50} height={50} >{userdetail?.email.slice(0,1)}</Avatar>
+                       </div>
+    const notifycount = notify?.reduce((total,item)=> total + item.massages,0);
+    const notifydetail = notify?.map((item,index)=>{
+      return <li key={index} onClick={()=>modifynotify(item.email)}><p>{`${item.massages} ${item.massages >1 ? 'massages' : 'massage'} from ${item.name} `}</p></li>
+    });
    
-    return(
-        <div className={classes.sidebarcon}>
+    const con = userdetail ? <div className={classes.sidebarcon}>
            <header className={classes.header}>
                 <div className={classes.avatar}>
                     {useravatar}<span>{userdetail.name}</span>
@@ -171,15 +187,16 @@ function Userdash(){
             <div className={classes.recipientcon}>
               <p>Your Friends</p>
               {friends?.map((item,index)=>
-                <Suspense key={index} fallback={`Loading...`}>
+               
                     <Recipient  key={index}  friend={item} deletefriend={deletefriend} fav={userdetail.favourite.includes(item)}/>
-                </Suspense>    
+                
               )}
 
             </div>
 
 
-        </div>
-    )
+        </div> : <p>Loading</p>
+  return con
+    
 }
 export default Userdash;
