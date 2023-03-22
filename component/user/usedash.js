@@ -1,4 +1,4 @@
-import {Avatar,Button,Badge} from '../../node_modules/@mui/material';
+import {Avatar,Button,Badge} from '@mui/material';
 import classes from "./userdash.module.css"
 import {useEffect, useRef, useState,useContext} from "react"
 import dynamic from 'next/dynamic'
@@ -51,18 +51,18 @@ function Userdash({userdetail}){
       }
     },[router.query.chatid])
 
-    useEffect(()=>{
-      console.log('PROBLEMDETECTED')
-      puserctx.setusername(userdetail.email); 
-      localStorage.setItem('user',JSON.stringify(userdetail))
-    },[])
+    // useEffect(()=>{
+    //   console.log('PROBLEMDETECTED')
+    //   puserctx.setusername(userdetail.email); 
+    //   localStorage.setItem('user',JSON.stringify(userdetail))
+    // },[])
 
-    useEffect(()=>{
-      if(puserctx.notify.length > 0){
-        setnotify(puserctx.notify)
-      }
+    // useEffect(()=>{
+    //   if(puserctx.notify.length > 0){
+    //     setnotify(puserctx.notify)
+    //   }
      
-    },[puserctx.notify])
+    // },[puserctx.notify])
 
     const addfriend = async()=> {
         

@@ -1,4 +1,4 @@
-import  {Avatar,Button} from "../../node_modules/@mui/material";
+import  {Avatar,Button} from "@mui/material";
 import Massage from "./massage";
 import classes from './chatcontainer.module.css'
 import {useEffect, useRef, useState,useContext} from 'react'

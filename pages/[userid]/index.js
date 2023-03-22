@@ -43,7 +43,7 @@ function User({userdetail}){
 export default User;
 
 export async function getServerSideProps({req,res}){
-  try{
+  
     const secret = process.env.NEXTAUTH_SECRET
     const session = await getToken({req, secret})
     
@@ -52,14 +52,11 @@ export async function getServerSideProps({req,res}){
     await db.collection("userdetail").updateOne({email:session.email},{$set:{status:'online',lastseen: Date.now()}})
     const user = await db.collection('userdetail').findOne({email:session?.email})
    
-      return { props: {
+    return { props: {
     userdetail:JSON.stringify(user ? user : {})
    } }
 
-  }catch(error){
-    console.log(error)
-    res.json(error)
-  }
+ 
  
   
   
