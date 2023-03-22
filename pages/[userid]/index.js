@@ -4,8 +4,8 @@ import classes from './index.module.css'
 import Loading from "../../component/ui/loding";
 import { Suspense,useEffect } from 'react'
 import { useSession } from "next-auth/react";
-import { getToken } from "next-auth/jwt";
-import clientPromise from "../../lib/mongodb";
+//import { getToken } from "next-auth/jwt";
+//import clientPromise from "../../lib/mongodb";
 import { useRouter } from "next/router";
 import Userdash from "../../component/user/usedash";
 
@@ -57,16 +57,16 @@ export default User;
 // }
 
 // <Userdash userdetail={JSON.parse(userdetail)}/>
-export const getServerSideProps= async({req,res}) =>{
+// export const getServerSideProps= async({req,res}) =>{
 
-  const secret = process.env.NEXTAUTH_SECRET;
-  const session = await getToken({req,secret});
-  const client = await clientPromise;
-  const db = client.db("user");
-  await db.collection("userdetail").updateOne({email:session.email},{$set:{status:'online'}})
-  const userdetail = await db.collection("userdetail").findOne({email:session?.email});
+//   const secret = process.env.NEXTAUTH_SECRET;
+//   const session = await getToken({req,secret});
+//   const client = await clientPromise;
+//   const db = client.db("user");
+//   await db.collection("userdetail").updateOne({email:session.email},{$set:{status:'online'}})
+//   const userdetail = await db.collection("userdetail").findOne({email:session?.email});
   
-  return {
-       props: {userdetail:JSON.stringify(userdetail)}
-  }
-}
+//   return {
+//        props: {userdetail:JSON.stringify(userdetail)}
+//   }
+// }
