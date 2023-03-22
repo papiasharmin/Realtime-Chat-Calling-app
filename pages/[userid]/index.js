@@ -17,12 +17,11 @@ function User({userdetail}){
     const router = useRouter()
     //const userctx = useContext(Usercontext)
 
-    // if(status == 'loading'){
-    //    return <Loading/>
-    // }else if(!session){
-    //   router.push(`/login`);
-    //   return
-    // }
+    if (status === "loading") {
+      return <p>Loading...</p>
+    }else if (!session) {
+      router.push(`/login`)
+    }
     
     return(
 
@@ -32,9 +31,9 @@ function User({userdetail}){
                 <meta name="description" content="My Office App" />  
             </Head>
 
-            <Suspense fallback={`Loading...`}>
-              {session && <Userdash userdetail={JSON.parse(userdetail)}/>}
-            </Suspense>  
+            
+              {session && <p>hello</p>}
+             
         </div>
     )
   }
@@ -64,3 +63,4 @@ export async function getServerSideProps({req,res}){
 }
 
 // <Userdash userdetail={JSON.parse(userdetail)}/>
+//<Suspense fallback={`Loading...`}>
