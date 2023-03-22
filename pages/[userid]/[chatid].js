@@ -7,6 +7,7 @@ import { getToken } from "next-auth/jwt";
 import clientPromise from "../../lib/mongodb";
 import { useEffect,useState } from "react";
 import { useRouter } from "next/router";
+import dynamic from "next/dynamic";
 import Chatcontainer from "../../component/chat/chatcontainer";
 
 
