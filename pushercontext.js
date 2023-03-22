@@ -17,10 +17,11 @@ export function Pusherprovider(props){
     async function initiatchange(){
         await fetch(`/api/mongochange`)
     }
+    
     useEffect(()=>{
         
         if(username){
-            
+            initiatchange()
             pusherRef.current = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY, {
                 authEndpoint: "/api/pusher/auth",
                 auth: {
@@ -29,7 +30,7 @@ export function Pusherprovider(props){
                 cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER,
                 });
                 
-                initiatchange()
+                
                channelRef.current = pusherRef.current.subscribe('chat',);
            
                channelRef.current.bind('newNotify',(doc)=>{
@@ -50,8 +51,9 @@ export function Pusherprovider(props){
 
     async function listennotify(doc){
         let notify = doc
+        
         if(friendemail){
-          notify = doc.filter(item => item.email !== friendemail && item.email !== username );
+          notify = doc.filter(item => item.email !== friendemail  );
           if(doc.find(item=>item.email == friendemail )){
 
           
@@ -71,11 +73,12 @@ export function Pusherprovider(props){
            setnewmsg(data.massages)
            }
         }
+        console.log(notify)
         setnotify(notify)
     }
 
     console.log(notify)
-    console.log(newmsg)
+    //console.log(newmsg)
    
     return (
         <Pushercontext.Provider value={{

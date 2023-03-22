@@ -61,8 +61,6 @@ function Chatcontainer(){
 
       useEffect(()=>{
         if(user && friend){
-            console.log(user)
-            console.log(friend)
             getchat(user.email,friend.email)
         }
 

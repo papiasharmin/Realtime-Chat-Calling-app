@@ -41,7 +41,6 @@ function Userdash(){
       if(userdetail){
         setfriends(userdetail.friends);
         setnotify(userdetail.notification)
-        console.log('PROBLEMDETECTED')
         puserctx.setusername(userdetail.email); 
         localStorage.setItem('user',JSON.stringify(userdetail))
 
@@ -73,20 +72,10 @@ function Userdash(){
 
     }
 
-    // useEffect(()=>{
-    //   if(router.query.chatid){
-    //     updatenotify(router.query.chatid);
-    //     puserctx.setfriendemail(router.query.chatid)
-    //   }
-    // },[router.query.chatid])
-
-  
-
     useEffect(()=>{
       if(puserctx.notify.length > 0){
         setnotify(puserctx.notify)
-      }
-     
+      } 
     },[puserctx.notify])
 
     const addfriend = async()=> {
@@ -145,7 +134,6 @@ function Userdash(){
        router.push(`/${router.query.userid}/${email}`)
     }
 
-    console.log(friends)
 
     const useravatar = <div className={classes.avatarbor} id='avatar' onMouseEnter={handelMouseenter} onMouseLeave={handelMouseleave}>
                           <Badge className={userdetail?.status === 'offline' ? classes.badgeof : classes.badge} ></Badge>
@@ -197,7 +185,7 @@ function Userdash(){
             <div className={classes.recipientcon}>
               <p>Your Friends</p>
               {friends?.map((item,index)=>{
-                   console.log(item)   
+                   
                   return  <Recipient  key={index}  friend={item} deletefriend={deletefriend} fav={userdetail.favourite.includes(item)}/>
               }
               )}
