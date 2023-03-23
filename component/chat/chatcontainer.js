@@ -75,7 +75,8 @@ function Chatcontainer(){
       )
     }
  
-    async function sendmassage(data, datatype, dataname){    
+    async function sendmassage(data, datatype, dataname){   
+      puserctx.initiatchange();
         let res = await sendmassagehelper(user.email,friend.email,data,datatype,dataname,user.name)     
         setmassagedata(showmassage(res.massages))
     }

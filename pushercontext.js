@@ -18,7 +18,7 @@ export function Pusherprovider(props){
     
     useEffect(()=>{    
         
-            initiatchange()
+            //initiatchange()
             pusherRef.current = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY, {
                 authEndpoint: "/api/pusher/auth",
                 auth: {
@@ -48,7 +48,7 @@ export function Pusherprovider(props){
    
     return (
         <Pushercontext.Provider value={{
-                                    
+                                    initiatchange,
                                     setusername,
                                     notify,
                                   
