@@ -17,13 +17,13 @@ export function Pusherprovider(props){
     }
     
     useEffect(()=>{    
-        
+        //if(username){
             initiatchange()
             pusherRef.current = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY, {
-                authEndpoint: "/api/pusher/auth",
-                auth: {
-                  params: { username: username },
-                },
+                // authEndpoint: "/api/pusher/auth",
+                // auth: {
+                //   params: { username: username },
+                // },
                 cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER,
                 });
                channelRef.current = pusherRef.current.subscribe('chat',);
@@ -33,8 +33,8 @@ export function Pusherprovider(props){
                });
        
                console.log(channelRef.current)
-        
-    },[username])
+        //}
+    },[])
 
     async function listennotify(doc){ 
         console.log(doc)    
