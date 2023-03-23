@@ -34,7 +34,7 @@ export function Pusherprovider(props){
        
                console.log(channelRef.current)
         
-    },[])
+    },[username])
 
     async function listennotify(doc){ 
         console.log(doc)    
