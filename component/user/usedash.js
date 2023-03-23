@@ -41,12 +41,14 @@ function Userdash(){
         setfriends(userdetail.friends);
         setnotify(userdetail.notification)
         puserctx.setusername(session.user.email)
+        puserctx.initiatchange();
         localStorage.setItem('user',JSON.stringify(userdetail))
       }
     },[userdetail])
 
     useEffect(()=>{
       if(router.query.chatid){
+        puserctx.initiatchange();
         updatenotify(router.query.chatid);
       }
     },[router.query.chatid])
