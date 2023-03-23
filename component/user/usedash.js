@@ -72,7 +72,8 @@ function Userdash(){
 
     useEffect(()=>{
       if(puserctx.notify.length > 0){
-        setnotify(puserctx.notify)
+        
+        setnotify(puserctx.notify.filter(item => item.email !== userdetail?.email))
         if(router.query.chatid){
           updatenotify(router.query.chatid)
         }
