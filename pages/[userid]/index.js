@@ -1,19 +1,16 @@
 
 import Head from "next/head";
 import classes from './index.module.css'
-import Loading from "../../component/ui/loding";
 import { Suspense,useEffect } from 'react'
 import { useSession } from "next-auth/react";
-//import { getToken } from "next-auth/jwt";
-//import clientPromise from "../../lib/mongodb";
 import { useRouter } from "next/router";
-import Userdash from "../../component/user/usedash";
+import dynamic from "next/dynamic";
 
+const Userdash = dynamic(() => import("../../component/user/usedash"), {suspense: true,})
 
 function User(){
     const {data:session,status} = useSession()
     const router = useRouter()
-    //const userctx = useContext(Usercontext)
 
     if (status === "loading") {
       return <p>Loading...</p>
@@ -27,15 +24,13 @@ function User(){
             <Head>
                 <title>user</title>
                 <meta name="description" content="My Office App" />  
-            </Head>
-
-            
-              {session && <Userdash/>}
-             
+            </Head>  
+            <Suspense fallback={`loading...`}>    
+              {session && <Userdash/>} 
+            </Suspense>             
         </div>
     )
   }
-
 
 export default User;
 

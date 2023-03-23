@@ -30,11 +30,8 @@ function Chatcontainer(){
         const data1 = await resuser.json();
         const resfrnd = await fetch(`/api/getdata/${router.query.chatid}`);
         const data2 = await resfrnd.json();
-  
-
         setuser(data1);
         setfriend(data2)
-  
       }
   
       useEffect(()=>{
@@ -49,13 +46,9 @@ function Chatcontainer(){
             },body:JSON.stringify({
                user,
                friend
-              
             })
-          }
-
-        );
+          });
         const data = await res.json();
-        console.log(data)
         setmassagedata(showmassage(data.massages)) 
       }
 
@@ -63,15 +56,13 @@ function Chatcontainer(){
         if(user && friend){
             getchat(user.email,friend.email)
         }
-
       },[user?.email,friend?.email])
 
-    useEffect(()=>{
-        console.log(puserctx.newmsg)
-        setmassagedata(showmassage(puserctx.newmsg))
-    },[puserctx.newmsg])
-
-
+      useEffect(()=>{
+        if(puserctx.notify.length > 0 && puserctx.notify.find(item=> item.email  === router.query.chatid)){
+            getchat(user.email,friend.email)
+        }
+      },[puserctx.notify])
 
     function showmassage(msgdata){  
         return msgdata.map((massage)=>

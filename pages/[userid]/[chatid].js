@@ -1,25 +1,18 @@
 import Head from "next/head";
 import classes from './index.module.css'
 import Loading from "../../component/ui/loding";
-
 import { useSession } from "next-auth/react";
-//import { getToken } from "next-auth/jwt";
-//import clientPromise from "../../lib/mongodb";
 import { Suspense, useEffect,useState } from "react";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
-
-
 
 const Userdash = dynamic(() => import("../../component/user/usedash"), {suspense: true,})
 const Chatcontainer = dynamic(() => import('../../component/chat/chatcontainer'), { suspense: true,})
 
 function Chat(){
     const {data:session,status} = useSession()
-
     if(status == 'loading') return <Loading/>
    
-
     return(
         <div className={classes.chatcon}>
             <Head>
@@ -34,7 +27,7 @@ function Chat(){
     )
 }
 
-export default dynamic(()=> Promise.resolve(Chat),{ssr:false})
+export default Chat
 
 // export async function getServerSideProps({req,query,params}){
 

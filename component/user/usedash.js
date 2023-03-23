@@ -30,7 +30,6 @@ function Userdash(){
       const res = await fetch(`/api/getdata`);
       const data = await res.json();
       setuserdetail(data);
-
     }
 
     useEffect(()=>{
@@ -41,16 +40,15 @@ function Userdash(){
       if(userdetail){
         setfriends(userdetail.friends);
         setnotify(userdetail.notification)
-        puserctx.setusername(userdetail.email); 
         localStorage.setItem('user',JSON.stringify(userdetail))
-
       }
+    },[userdetail])
+
+    useEffect(()=>{
       if(router.query.chatid){
         updatenotify(router.query.chatid);
-        puserctx.setfriendemail(router.query.chatid)
       }
-
-    },[userdetail,router.query.chatid])
+    },[router.query.chatid])
   
     async function updatenotify(email){
       await fetch(`/api/handelnotify`,{
@@ -75,8 +73,13 @@ function Userdash(){
     useEffect(()=>{
       if(puserctx.notify.length > 0){
         setnotify(puserctx.notify)
+        if(router.query.chatid){
+          updatenotify(router.query.chatid)
+        }
       } 
     },[puserctx.notify])
+
+    useEffect(()=>{},[friends,userctx.userdetail])
 
     const addfriend = async()=> {
         
@@ -92,8 +95,6 @@ function Userdash(){
            setfriends(res.friends)   
         }    
     }
-
-    useEffect(()=>{},[friends,userctx.userdetail])
 
     const deletefriend = async(friend)=> {   
         let res = await createChathelper(friend,userdetail,'delete')

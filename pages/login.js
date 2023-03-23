@@ -7,7 +7,7 @@ import Head from 'next/head'
 import classes from './login.module.css'
 import Image from 'next/image'
 import { Button } from '@mui/material'
-import Usercontext from '../store'
+import Pushercontext from '../pushercontext'
 import { useContext } from 'react'
 import { useEffect } from 'react'
 
@@ -18,7 +18,7 @@ const Login = ({userdetail}) => {
   const logpasswordref= useRef(null);
   const [notify,setnotify] = useState('')
   const router = useRouter()
-  const userctx = useContext(Usercontext)
+  const puserctx = useContext(Pushercontext)
   
 
   const login = async (e)=>{
@@ -45,26 +45,11 @@ const Login = ({userdetail}) => {
     router.push(`/signup`)
   }
 
-  // async function getdata(){
-    
-  //   //let user = await 
-  //   updatestatus('online')
-  //   //let user = await fetch(`/api/getdata/${session.user.email}`)
-  //   //let userdetail = await user.json()
-  //   //localStorage.setItem('user',JSON.stringify(userdetail))
-    
-  //   router.push(`/${session.user.email}`)
-
-  // }
-
-
   useEffect(()=>{
     if(session){ 
-      //updatestatus('online')
+      puserctx.setusername(session.user.email)
       router.push(`/${session.user.email}`)
-
     }
-
   },[session])
 
   return (
