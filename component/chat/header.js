@@ -12,13 +12,8 @@ function Header({frienddata,user,deletemsg}) {
     let [show,setshow] = useState(false);
     let [ontooltip,setontooltip] = useState(false);
     let [time,settime] = useState(0);
-    const [notify,setnotify] = useState(user.notification)
     const router = useRouter()
     const puserctx = useContext(Pushercontext)
-
-    useEffect(()=>{
-       setnotify(puserctx.notify)
-    },[puserctx.notify])
 
     function handelMouseenter(event){    
         setshow(event?.currentTarget.id)  
@@ -54,19 +49,10 @@ function Header({frienddata,user,deletemsg}) {
         router.push(`/`)
     }
 
-    function viewsender(email){
-      router.push(`/router.query.userid/${email}`)
-    }
-
     const avatar =  <div className={classes.avatarbor}> 
                         <Badge className={frienddata.status == 'online'? classes.badge : classes.badgeoff} overlap="circular" variant="dot"></Badge>
                         <Avatar src={frienddata.photo ? frienddata.photo : ''} className={classes.avatar} width={50} height={50}>{frienddata?.name?.slice(0,1)} </Avatar> 
                     </div> 
-    const allnotify = notify.map((item,index) =>{
-     return <li key={index} onClick={()=>viewsender(item.email)}>{<p>{`${item.email} ${item.massagecout} massage`}</p>}</li>
-    })
-
-    const notifycount = notify.reduce((total,item)=> total + item.massages,0);
  
   return (
     <header>
@@ -78,20 +64,6 @@ function Header({frienddata,user,deletemsg}) {
             </div>
         </div>
         <div>
-          <div className={classes.notify}>
-            <Badge>{notifycount > 0 ? notifycount :''}</Badge>
-            <Notifications sx={{ width :20, height:20}} id='notify' color="primary" onMouseEnter={handelMouseenter} onMouseLeave={handelMouseleave}/>
-            {show === 'notify' && 
-            <div className={classes.notifycon} onMouseEnter={handeltooltipenter} onMouseLeave={handeltooltipleave}>
-                
-                   {notifycount > 0 ?
-                   <ul>
-                        {allnotify}
-                   </ul>:
-                   <p>No Notification</p>}
-            
-            </div>}
-          </div>
             
             <MoreHoriz color="primary" id='tool' onMouseEnter={handelMouseenter} onMouseLeave={handelMouseleave}/> 
             {show === 'tool'  && <Chattooltip  onmouseenter={handeltooltipenter} onmouseleave={handeltooltipleave} user={user} friendemail={frienddata.email} deletemsg={deletemsg}/>}         

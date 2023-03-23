@@ -24,6 +24,7 @@ function Userdash(){
     const puserctx = useContext(Pushercontext)
     const userctx = useContext(Usercontext)
     const router = useRouter()
+    const notifyref = useRef()
 
     async function getdata(){
       await updatestatus('online')
@@ -77,6 +78,10 @@ function Userdash(){
       if(puserctx.notify.length > 0){
         
         setnotify(puserctx.notify.filter(item => item.email !== userdetail?.email))
+        if(!puserctx.notify.find(item => item.email == userdetail?.email)){
+          let song = new Audio(`/music/notifytone1.mp3`)
+          song.play()
+        }
         if(router.query.chatid){
           updatenotify(router.query.chatid)
         }
@@ -161,6 +166,7 @@ function Userdash(){
                 <div>
                     {notifycount > 0  && <div className={classes.badgenotify}><span>{notifycount}</span></div>}
                     <Notifications sx={{ width :25, height:25}} id='notify' color="primary" onMouseEnter={handelMouseenter} onMouseLeave={handelMouseleave}/>      
+                     
                     {show === 'notify' && 
                     <div className={classes.notifycon} onMouseEnter={handeltooltipenter} onMouseLeave={handeltooltipleave}>
                         {notifycount > 0 ?
