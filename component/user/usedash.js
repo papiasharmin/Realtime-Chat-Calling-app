@@ -40,6 +40,7 @@ function Userdash(){
       if(userdetail){
         setfriends(userdetail.friends);
         setnotify(userdetail.notification)
+        puserctx.setusername(session.user.email)
         localStorage.setItem('user',JSON.stringify(userdetail))
       }
     },[userdetail])
