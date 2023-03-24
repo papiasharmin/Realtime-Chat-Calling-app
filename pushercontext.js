@@ -17,7 +17,7 @@ export function Pusherprovider(props){
     }
     
     useEffect(()=>{    
-        //if(username){
+        if(username){
             initiatchange()
             pusherRef.current = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY, {
                 // authEndpoint: "/api/pusher/auth",
@@ -33,8 +33,8 @@ export function Pusherprovider(props){
                });
        
                console.log(channelRef.current)
-        //}
-    },[])
+        }
+    },[username])
 
     async function listennotify(doc){ 
         console.log(doc)    
@@ -44,7 +44,7 @@ export function Pusherprovider(props){
     }
 
     console.log(notify)
-   useEffect(()=>{},[notify])
+   useEffect(()=>{},[notify,username])
    
     return (
         <Pushercontext.Provider value={{

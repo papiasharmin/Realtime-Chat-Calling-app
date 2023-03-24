@@ -47,7 +47,7 @@ const Login = ({userdetail}) => {
 
   useEffect(()=>{
     if(session){ 
-      
+      puserctx.setusername(session.user.email)
       router.push(`/${session.user.email}`)
     }
   },[session])
