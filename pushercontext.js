@@ -30,7 +30,7 @@ export function Pusherprovider(props){
             pusherRef.current = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY, {
                 authEndpoint: "/api/pusher/auth",
                 auth: {
-                  params: { username:  },
+                  params: { username: username },
                 },
                 cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER,
                 });
