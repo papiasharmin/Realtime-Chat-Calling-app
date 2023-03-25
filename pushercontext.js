@@ -40,7 +40,7 @@ export function Pusherprovider(props){
                     listennotify(doc);
                });
 
-               channelcallRef.current = pusherRef.current.subscribe(`private-video`)
+               //channelcallRef.current = pusherRef.current.subscribe(`private-video`)
        
                console.log(channelRef.current)
         }
