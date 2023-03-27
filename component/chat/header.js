@@ -14,7 +14,10 @@ function Header({frienddata,user,deletemsg}) {
     let [time,settime] = useState(0);
     const router = useRouter()
     const puserctx = useContext(Pushercontext)
-
+    const myVideo = useRef()
+    const friendVideo = useRef()
+    puserctx.setmyvideo(myVideo);
+    puserctx.setfriendvideo(friendVideo)
     function handelMouseenter(event){    
         setshow(event?.currentTarget.id)  
      };
@@ -49,6 +52,8 @@ function Header({frienddata,user,deletemsg}) {
         router.push(`/`)
     }
 
+   
+
     const avatar =  <div className={classes.avatarbor}> 
                         <Badge className={frienddata.status == 'online'? classes.badge : classes.badgeoff} overlap="circular" variant="dot"></Badge>
                         <Avatar src={frienddata.photo ? frienddata.photo : ''} className={classes.avatar} width={50} height={50}>{frienddata?.name?.slice(0,1)} </Avatar> 
@@ -64,13 +69,13 @@ function Header({frienddata,user,deletemsg}) {
             </div>
         </div>
         <div>
-            
+            <VideoCall variant="contained" color="primary"  fullWidth onClick={()=> puserctx.callUser(user._id,myVideo)} />
             <MoreHoriz color="primary" id='tool' onMouseEnter={handelMouseenter} onMouseLeave={handelMouseleave}/> 
             {show === 'tool'  && <Chattooltip  onmouseenter={handeltooltipenter} onmouseleave={handeltooltipleave} user={user} friendemail={frienddata.email} deletemsg={deletemsg}/>}         
             <CloseOutlined sx={{ width :25, height:25}} color="primary" onClick={closechat}/>
         </div>
-    
-          
+        <div className={classes.video}><video playsInline muted ref={myVideo} autoPlay  /></div>
+        {puserctx.answered && <div className={classes.video}><video playsInline muted ref={friendVideo} autoPlay  /></div>}
     </header>
   )
 }
