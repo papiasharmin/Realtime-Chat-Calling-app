@@ -14,10 +14,11 @@ function Header({frienddata,user,deletemsg}) {
     let [time,settime] = useState(0);
     const router = useRouter()
     const puserctx = useContext(Pushercontext)
+    const {setStream,stream,  setName, callUser} = useContext(Pushercontext);
     const myVideo = useRef()
     const friendVideo = useRef()
-    puserctx.setmyvideo(myVideo);
-    puserctx.setfriendvideo(friendVideo)
+    //puserctx.setmyvideo(myVideo);
+    //puserctx.setfriendvideo(friendVideo)
     function handelMouseenter(event){    
         setshow(event?.currentTarget.id)  
      };
@@ -52,6 +53,28 @@ function Header({frienddata,user,deletemsg}) {
         router.push(`/`)
     }
 
+    function call(){
+      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+          .then((currentStream) => {
+            setStream(currentStream);
+            console.log(currentStream)
+            myVideo.current.srcObject = currentStream
+            if(!stream){
+              myVideo.current.srcObject = stream
+            }
+        });
+        }
+        setName(user.name)
+        // console.log(friendsocket)
+        // console.log(id)
+        
+          callUser(frienddata._id)
+        
+        //callUser(id)
+       
+    }
+
    
 
     const avatar =  <div className={classes.avatarbor}> 
@@ -69,13 +92,13 @@ function Header({frienddata,user,deletemsg}) {
             </div>
         </div>
         <div>
-            <VideoCall variant="contained" color="primary"  fullWidth onClick={()=> puserctx.callUser(user._id,myVideo)} />
+            <VideoCall variant="contained" color="primary"  fullWidth onClick={call} />
             <MoreHoriz color="primary" id='tool' onMouseEnter={handelMouseenter} onMouseLeave={handelMouseleave}/> 
             {show === 'tool'  && <Chattooltip  onmouseenter={handeltooltipenter} onmouseleave={handeltooltipleave} user={user} friendemail={frienddata.email} deletemsg={deletemsg}/>}         
             <CloseOutlined sx={{ width :25, height:25}} color="primary" onClick={closechat}/>
         </div>
         <div className={classes.video}><video playsInline muted ref={myVideo} autoPlay  /></div>
-        {puserctx.answered && <div className={classes.video}><video playsInline muted ref={friendVideo} autoPlay  /></div>}
+        
     </header>
   )
 }
