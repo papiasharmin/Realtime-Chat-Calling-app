@@ -18,7 +18,7 @@ export function Pusherprovider(props){
 
     const [callAccepted, setCallAccepted] = useState(false);
     const [callEnded, setCallEnded] = useState(false);
-    const [stream, setStream] = useState();
+    const [stream, setStream] = useState(null);
     const [name, setName] = useState('');
     const [call, setCall] = useState({});
     // const [me, setMe] = useState('');
@@ -307,14 +307,21 @@ export function Pusherprovider(props){
     const answerCall = () => {
         setCallAccepted(true);
         const peer = new Peer({ initiator: false, trickle: false, stream });
-    
+        console.log(stream)
+
         peer.on('signal', (data) => {
             console.log(data)
+
             channelRef.current.trigger('client-answerCall', { signal: data, to: call.from });
         });
     
         peer.on('stream', (currentStream) => {
             console.log(currentStream)
+            // //if ('srcObject' in userVideo.current) {
+            //     userVideo.current.srcObject = currentStream;
+            //   } else {
+            //     userVideo.current.src = window.URL.createObjectURL(currentStream)
+            //   }
             userVideo.current.srcObject = currentStream;
         });
 
@@ -324,10 +331,10 @@ export function Pusherprovider(props){
 
       };
     
-      const callUser = (id) => {
+      const callUser = (id,stream) => {
         console.log(id)
         const peer = new Peer({ initiator: true, trickle: false, stream });
-    
+        console.log(stream)
         peer.on('signal', (data) => {
           console.log(data)
           channelRef.current.trigger('client-callUser', { userToCall: id, signalData: data, from: username, name });
@@ -335,6 +342,11 @@ export function Pusherprovider(props){
     
         peer.on('stream', (currentStream) => {
           console.log(currentStream)
+          // if ('srcObject' in userVideo.current) {
+          //   userVideo.current.srcObject = currentStream;
+          // } else {
+          //   userVideo.current.src = window.URL.createObjectURL(currentStream)
+          // }
           userVideo.current.srcObject = currentStream;
         });
     
@@ -373,9 +385,9 @@ export function Pusherprovider(props){
                                     // answered
                                     call,
                                     callAccepted,
-                                    setStream,
+                                    //setStream,
                                     userVideo,
-                                    stream,
+                                    //stream,
                                     name,
                                     setName,
                                     callEnded,
