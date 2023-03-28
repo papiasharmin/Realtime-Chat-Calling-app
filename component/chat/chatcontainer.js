@@ -25,7 +25,7 @@ function Chatcontainer(){
     const { answerCall, callAccepted, myVideo, userVideo, callEnded, stream, call, setName, leaveCall,} = useContext(Pushercontext);
     const puserctx = useContext(Pushercontext)
     const router = useRouter()
-
+    //const userVideo = useRef()
     async function getdata(){
         const resuser = await fetch(`/api/getdata`);
         const data1 = await resuser.json();
@@ -107,7 +107,29 @@ function Chatcontainer(){
         let res = await deletemassagehelper(user.email,friend.email,id)
         setmassagedata(showmassage(res.massages))
     }
-    console.log(callAccepted)
+    console.log(userVideo)
+
+    function answercall(){
+      
+      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        
+        navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+          .then((currentStream) => {
+            //setStream(currentStream);
+            console.log(currentStream)
+            
+            //answerCall(currentStream)
+            //myVideo.current.srcObject = currentStream
+            // if(!stream){
+            //   myVideo.current.srcObject = stream
+            // }
+        }).catch((error) =>{
+          console.log(error)
+        })
+        }
+        
+       
+    }
     
     const con = user && friend ?    <div className={classes.chatcon} >
             <Header frienddata={friend} user={user} deletemsg={deletemsg}/>
@@ -138,7 +160,7 @@ function Chatcontainer(){
             </div>
             {callAccepted && !callEnded && (
                 <div className={classes.callAccepted}>
-                    <video playsInline ref={userVideo} autoPlay  />
+                    <video playsInline ref={userVideo} muted autoPlay  />
                     <Button variant="contained" color="secondary" startIcon={<PhoneDisabled fontSize="large" />} fullWidth onClick={leaveCall} >
                         Hang Up
                     </Button>
@@ -150,6 +172,7 @@ function Chatcontainer(){
               <Button variant="contained" color="primary" onClick={answerCall}>
                 Answer
               </Button>
+              <button onClick={answercall}>try</button>
             </div>
             )}
         
