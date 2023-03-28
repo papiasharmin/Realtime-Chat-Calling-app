@@ -22,6 +22,7 @@ function Chatcontainer(){
     const [user,setuser] = useState(null);
     const [friend,setfriend] = useState(null);
     const [massagedata,setmassagedata] = useState(null)
+    const { answerCall, callAccepted, myVideo, userVideo, callEnded, stream, call, setName, leaveCall,} = useContext(Pushercontext);
     const puserctx = useContext(Pushercontext)
     const router = useRouter()
 
@@ -106,7 +107,7 @@ function Chatcontainer(){
         let res = await deletemassagehelper(user.email,friend.email,id)
         setmassagedata(showmassage(res.massages))
     }
-    
+    console.log(callAccepted)
     
     const con = user && friend ?    <div className={classes.chatcon} >
             <Header frienddata={friend} user={user} deletemsg={deletemsg}/>
@@ -135,6 +136,22 @@ function Chatcontainer(){
                 <Button variant="contained" endIcon={<SendRounded/>} sx={{ width :25}}  onClick={()=>sendmassage(massageinputref.current.value)}/>
                  
             </div>
+            {callAccepted && !callEnded && (
+                <div className={classes.callAccepted}>
+                    <video playsInline ref={userVideo} autoPlay  />
+                    <Button variant="contained" color="secondary" startIcon={<PhoneDisabled fontSize="large" />} fullWidth onClick={leaveCall} >
+                        Hang Up
+                    </Button>
+                </div>
+              )}
+            {call.isReceivingCall && !callAccepted && (
+            <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+              <h1>{call.name} is calling:</h1>
+              <Button variant="contained" color="primary" onClick={answerCall}>
+                Answer
+              </Button>
+            </div>
+            )}
         
         </div> : <p>loading</p>
 
@@ -142,4 +159,5 @@ function Chatcontainer(){
     
 }
 export default Chatcontainer;
+
 
