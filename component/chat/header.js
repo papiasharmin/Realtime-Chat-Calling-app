@@ -14,7 +14,7 @@ function Header({frienddata,user,deletemsg}) {
     let [time,settime] = useState(0);
     const router = useRouter()
     const puserctx = useContext(Pushercontext)
-    const {setStream,stream,  setName, callUser} = useContext(Pushercontext);
+    const {  setName, callUser,callAccepted} = useContext(Pushercontext);
     const myVideo = useRef()
     const friendVideo = useRef()
     //puserctx.setmyvideo(myVideo);
@@ -53,25 +53,41 @@ function Header({frienddata,user,deletemsg}) {
         router.push(`/`)
     }
 
+    // useEffect(()=>{
+    //   if(callAccepted && !myVideo.current.srcObject){
+    //     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    //       navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+    //         .then((currentStream) => {
+    //           setStream(currentStream);
+    //           console.log(currentStream)
+    //           myVideo.current.srcObject = currentStream
+    //           if(!stream){
+    //             myVideo.current.srcObject = stream
+    //           }
+    //       });
+    //       }
+
+
+    //   }
+
+    // },[callAccepted])
+
     function call(){
+      
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         navigator.mediaDevices.getUserMedia({ video: true, audio: true })
           .then((currentStream) => {
-            setStream(currentStream);
+            //setStream(currentStream);
             console.log(currentStream)
+            setName(user.name)
+            callUser(frienddata._id,currentStream)
             myVideo.current.srcObject = currentStream
-            if(!stream){
-              myVideo.current.srcObject = stream
-            }
+            // if(!stream){
+            //   myVideo.current.srcObject = stream
+            // }
         });
         }
-        setName(user.name)
-        // console.log(friendsocket)
-        // console.log(id)
         
-          callUser(frienddata._id)
-        
-        //callUser(id)
        
     }
 
