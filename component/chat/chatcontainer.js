@@ -3,14 +3,6 @@ import Massage from "./massage";
 import classes from './chatcontainer.module.css'
 import {useEffect, useRef, useState,useContext} from 'react'
 import { deletemassagehelper,sendmassagehelper,filehandeler} from "../../helper";
-import { AttachFile, EmojiEmotions, PhoneDisabled, Photo,SendRounded } from "@mui/icons-material";
-import EmojiPicker from 'emoji-picker-react';
-import Header from "./header";
-import  {Avatar,Button} from "@mui/material";
-import Massage from "./massage";
-import classes from './chatcontainer.module.css'
-import {useEffect, useRef, useState,useContext} from 'react'
-import { deletemassagehelper,sendmassagehelper,filehandeler} from "../../helper";
 import { AttachFile, EmojiEmotions, Photo,SendRounded } from "@mui/icons-material";
 import EmojiPicker from 'emoji-picker-react';
 import Header from "./header";
