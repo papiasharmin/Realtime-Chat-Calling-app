@@ -60,7 +60,7 @@ export function Pusherprovider(props){
             initiatchange(username)
             setName(session.user.email)
             pusherRef.current = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY, 
-//                  {
+                {
 //                 authEndpoint: "/api/pusher/auth",
 //                 auth: {
 //                   params: { username: username },
