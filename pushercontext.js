@@ -67,7 +67,8 @@ export function Pusherprovider(props){
                 
                 cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER,
                 });
-               channelRef.current = pusherRef.current.subscribe('private-chat');
+               channelRef.current = pusherRef.current.subscribe('presence-chat');
+               console.log(channelRef.current)
            
                channelRef.current.bind('client-newNotify',(doc)=>{
                     listennotify(doc);
@@ -319,8 +320,8 @@ export function Pusherprovider(props){
         peer.on('error',(error)=>{
           console.log(error)
         })
-        peer.on('connect',(connect)=>{
-          console.log(connect)
+        peer.on('connect',()=>{
+          console.log('connect')
         })
     
         peer.on('stream', (currentStream) => {
@@ -361,8 +362,8 @@ export function Pusherprovider(props){
         peer.on('error',(error)=>{
           console.log(error)
         })
-        peer.on('connect',(connect)=>{
-          console.log(connect)
+        peer.on('connect',()=>{
+          console.log('connect')
         })
     
         channelRef.current.bind('client-answerCall', (data) => {
