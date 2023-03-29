@@ -6,12 +6,19 @@ import { deletemassagehelper,sendmassagehelper,filehandeler} from "../../helper"
 import { AttachFile, EmojiEmotions, PhoneDisabled, Photo,SendRounded } from "@mui/icons-material";
 import EmojiPicker from 'emoji-picker-react';
 import Header from "./header";
+import  {Avatar,Button} from "@mui/material";
+import Massage from "./massage";
+import classes from './chatcontainer.module.css'
+import {useEffect, useRef, useState,useContext} from 'react'
+import { deletemassagehelper,sendmassagehelper,filehandeler} from "../../helper";
+import { AttachFile, EmojiEmotions, Photo,SendRounded } from "@mui/icons-material";
+import EmojiPicker from 'emoji-picker-react';
+import Header from "./header";
 import Cam from "./cam";
 import Record from "./record";
 import Pushercontext from "../../pushercontext";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-
 
 function Chatcontainer(){
     
@@ -22,10 +29,10 @@ function Chatcontainer(){
     const [user,setuser] = useState(null);
     const [friend,setfriend] = useState(null);
     const [massagedata,setmassagedata] = useState(null)
-    const { answerCall, callAccepted, myVideo, userVideo, callEnded, stream, call, setName, leaveCall,} = useContext(Pushercontext);
+    const [myvideostream,setmyvideostream] = useState(null)
     const puserctx = useContext(Pushercontext)
     const router = useRouter()
-    //const userVideo = useRef()
+    
     async function getdata(){
         const resuser = await fetch(`/api/getdata`);
         const data1 = await resuser.json();
@@ -107,29 +114,6 @@ function Chatcontainer(){
         let res = await deletemassagehelper(user.email,friend.email,id)
         setmassagedata(showmassage(res.massages))
     }
-    console.log(userVideo)
-
-    function answercall(){
-      
-      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        
-        navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-          .then((currentStream) => {
-            //setStream(currentStream);
-            console.log(currentStream)
-            
-            answerCall(currentStream)
-            //myVideo.current.srcObject = currentStream
-            // if(!stream){
-            //   myVideo.current.srcObject = stream
-            // }
-        }).catch((error) =>{
-          console.log(error)
-        })
-        }
-        
-       
-    }
     
     const con = user && friend ?    <div className={classes.chatcon} >
             <Header frienddata={friend} user={user} deletemsg={deletemsg}/>
@@ -158,23 +142,7 @@ function Chatcontainer(){
                 <Button variant="contained" endIcon={<SendRounded/>} sx={{ width :25}}  onClick={()=>sendmassage(massageinputref.current.value)}/>
                  
             </div>
-            {callAccepted && !callEnded && (
-                <div className={classes.callAccepted}>
-                    <video playsInline ref={userVideo} muted autoPlay  />
-                    <Button variant="contained" color="secondary" startIcon={<PhoneDisabled fontSize="large" />} fullWidth onClick={leaveCall} >
-                        Hang Up
-                    </Button>
-                </div>
-              )}
-            {call.isReceivingCall && !callAccepted && (
-            <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-              <h1>{call.name} is calling:</h1>
-              <Button variant="contained" color="primary" onClick={answercall}>
-                Answer
-              </Button>
-              
-            </div>
-            )}
+
         
         </div> : <p>loading</p>
 
