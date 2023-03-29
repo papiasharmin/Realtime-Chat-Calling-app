@@ -4,6 +4,7 @@ import Pusher, { Members, PresenceChannel } from "pusher-js";
 import { useSession } from "next-auth/react";
 import Peer from 'simple-peer';
 
+
 let Pushercontext = createContext()
 
 export function Pusherprovider(props){
@@ -66,7 +67,7 @@ export function Pusherprovider(props){
                 
                 cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER,
                 });
-               channelRef.current = pusherRef.current.subscribe('presence-chat');
+               channelRef.current = pusherRef.current.subscribe('private-chat');
            
                channelRef.current.bind('client-newNotify',(doc)=>{
                     listennotify(doc);
@@ -314,6 +315,13 @@ export function Pusherprovider(props){
 
             channelRef.current.trigger('client-answerCall', { signal: data, to: call.from });
         });
+
+        peer.on('error',(error)=>{
+          console.log(error)
+        })
+        peer.on('connect',(connect)=>{
+          console.log(connect)
+        })
     
         peer.on('stream', (currentStream) => {
             console.log(currentStream)
@@ -349,6 +357,13 @@ export function Pusherprovider(props){
           // }
           userVideo.current.srcObject = currentStream;
         });
+
+        peer.on('error',(error)=>{
+          console.log(error)
+        })
+        peer.on('connect',(connect)=>{
+          console.log(connect)
+        })
     
         channelRef.current.bind('client-answerCall', (data) => {
             console.log(data)
