@@ -59,22 +59,23 @@ export function Pusherprovider(props){
         if(username){
             initiatchange(username)
             setName(session.user.email)
-            pusherRef.current = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY, {
-                authEndpoint: "/api/pusher/auth",
-                auth: {
-                  params: { username: username },
-                },
+            pusherRef.current = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY, 
+//                  {
+//                 authEndpoint: "/api/pusher/auth",
+//                 auth: {
+//                   params: { username: username },
+//                 },
                 
                 cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER,
                 });
-               channelRef.current = pusherRef.current.subscribe('presence-chat');
+               channelRef.current = pusherRef.current.subscribe('chat');
                console.log(channelRef.current)
            
-               channelRef.current.bind('client-newNotify',(doc)=>{
+               channelRef.current.bind('newNotify',(doc)=>{
                     listennotify(doc);
                });
 
-               channelRef.current.bind('client-callUser', (data) => {
+               channelRef.current.bind('callUser', (data) => {
                   console.log(data) 
                   setCall({ isReceivingCall: true, from:data.from, name: data.callerName, signal:data.signalData }); 
                });
@@ -314,7 +315,7 @@ export function Pusherprovider(props){
         peer.on('signal', (data) => {
             console.log(data)
 
-            channelRef.current.trigger('client-answerCall', { signal: data, to: call.from });
+            channelRef.current.trigger('answerCall', { signal: data, to: call.from });
         });
 
         peer.on('error',(error)=>{
@@ -346,7 +347,7 @@ export function Pusherprovider(props){
         console.log(stream)
         peer.on('signal', (data) => {
           console.log(data)
-          channelRef.current.trigger('client-callUser', { userToCall: id, signalData: data, from: username, name });
+          channelRef.current.trigger('callUser', { userToCall: id, signalData: data, from: username, name });
         });
     
         peer.on('stream', (currentStream) => {
@@ -366,7 +367,7 @@ export function Pusherprovider(props){
           console.log('connect')
         })
     
-        channelRef.current.bind('client-answerCall', (data) => {
+        channelRef.current.bind('answerCall', (data) => {
             console.log(data)
             setCallAccepted(true);
     
