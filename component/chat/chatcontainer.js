@@ -113,12 +113,12 @@ function Chatcontainer(){
       
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         
-        navigator.mediaDevices.getUserMedia({ audio: true })
+        navigator.mediaDevices.getUserMedia({ video: true, audio: true })
           .then((currentStream) => {
             //setStream(currentStream);
             console.log(currentStream)
             
-            //answerCall(currentStream)
+            answerCall(currentStream)
             //myVideo.current.srcObject = currentStream
             // if(!stream){
             //   myVideo.current.srcObject = stream
@@ -169,10 +169,10 @@ function Chatcontainer(){
             {call.isReceivingCall && !callAccepted && (
             <div style={{ display: 'flex', justifyContent: 'space-around' }}>
               <h1>{call.name} is calling:</h1>
-              <Button variant="contained" color="primary" onClick={answerCall}>
+              <Button variant="contained" color="primary" onClick={answercall}>
                 Answer
               </Button>
-              <button onClick={answercall}>try</button>
+              
             </div>
             )}
         
