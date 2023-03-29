@@ -1,25 +1,27 @@
-
-import Pusher from "pusher";
 import pusher from '../../../../lib/pusher'
 
 export default async function handler(
   req,
   res
 ){
-  const { socket_id, channel_name, username } = req.body;
-  const randomString = Math.random().toString(36).slice(2);
+  console.log(req.body)
+  //const { socket_id, channel_name, username } = req.body;
+  const socketid = req.body.socket_id;
+  const channel = req.body.channel_name;
+  const user = req.body.username
+  //const randomString = Math.random().toString(36).slice(2);
 
   const presenceData = {
-    user_id: randomString,
+    user_id:user,
     user_info: {
-      username: "@" + username,
+      username: "@" + user,
     },
   };
 
 
 
   try {
-    const auth = pusher.authenticateUser((socket_id, channel_name, presenceData));
+    const auth = pusher.authorizeChannel(socketid, channel, presenceData)
     res.send(auth);
   } catch (error) {
     console.error(error);
