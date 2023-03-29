@@ -192,9 +192,11 @@
 }
 .callAccepted{
     position: absolute;
-    top: 100px;
+    top: 90px;
     width: -moz-fit-content;
-    width: 420px;
+    width: 100%;
+    /* height: 700px; */
+    left: 0;
     
 }
 .callAccepted > video{
@@ -208,10 +210,26 @@
     width: 150px;
     /* height: 700px; */
     z-index: 200;
-    border: 2px solid whitesmoke;
-    box-shadow: 2px 2px 7px gray;
+   
+    
 }
 
 .video > video{
     width:inherit
+}
+
+.answercall{
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    top: 350%;
+    left: 25%;
+    background-color: whitesmoke;
+    box-shadow: 2px 2px 5px gray;
+    height: 100px;
+    width: 200px;
+    padding: 10px;
+    flex-direction: column;
+    align-content: center;
+    flex-wrap: wrap;
 }
