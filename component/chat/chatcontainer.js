@@ -113,7 +113,7 @@ function Chatcontainer(){
       
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         
-        navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+        navigator.mediaDevices.getUserMedia({ audio: true })
           .then((currentStream) => {
             //setStream(currentStream);
             console.log(currentStream)
