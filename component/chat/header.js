@@ -66,10 +66,10 @@ function Header({frienddata,user,deletemsg}) {
 
     function answercall(){
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) { 
-        navigator.mediaDevices.getUserMedia({ audio: true })
+        navigator.mediaDevices.getUserMedia({ video:true, audio: true })
           .then((currentStream) => {
             console.log(currentStream)
-            setshowmyved(true)
+            
             // if(myVideo.current.srcObject ){
             //   myVideo.current.srcObject = currentStream
             // }else{
@@ -89,7 +89,7 @@ function Header({frienddata,user,deletemsg}) {
         navigator.mediaDevices.getUserMedia({ video: true, audio: true })
           .then((currentStream) => {
             console.log(currentStream)
-            setshowmyved(true)
+            
             // if(myVideo.current.srcObject ){
             //   myVideo.current.srcObject = currentStream
             // }else{
@@ -122,10 +122,10 @@ function Header({frienddata,user,deletemsg}) {
             {show === 'tool'  && <Chattooltip  onmouseenter={handeltooltipenter} onmouseleave={handeltooltipleave} user={user} friendemail={frienddata.email} deletemsg={deletemsg}/>}         
             <CloseOutlined sx={{ width :25, height:25}} color="primary" onClick={closechat}/>
         </div>
-        <div className={classes.video}><video playsInline muted ref={myVideo} autoPlay  /></div>
+        <div className={classes.video}><video playsInline ref={myVideo} autoPlay  /></div>
           {callAccepted && !callEnded && 
   <div className={classes.callAccepted}>
-      <video playsInline ref={userVideo} muted autoPlay  />
+      <video playsInline ref={userVideo}  autoPlay  />
       <Button variant="contained" color="secondary" startIcon={<PhoneDisabled fontSize="large" />} fullWidth onClick={leaveCall} >
           Hang Up
       </Button>
