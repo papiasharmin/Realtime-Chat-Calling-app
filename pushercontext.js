@@ -307,7 +307,7 @@ export function Pusherprovider(props){
 
     //Listening for answer to offer sent to remote peer
 
-    const answerCall = () => {
+    const answerCall = (stream) => {
         setCallAccepted(true);
         const peer = new Peer({ initiator: false, trickle: false, stream });
         console.log(stream)
