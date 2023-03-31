@@ -53,45 +53,52 @@ function Header({frienddata,user,deletemsg}) {
     }
 
     function answercall(){
-      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) { 
-        navigator.mediaDevices.getUserMedia({ video: true, audio: true  })
-          .then((currentStream) => {
-            console.log(currentStream)
-            setstream(currentStream)
-            answerCall(currentStream)
-            myVideo.current.srcObject = currentStream
-        }).catch((error) =>{
-          console.log(error)
+
+    if(navigator.mediaDevices?.enumerateDevices){
+      navigator.mediaDevices.enumerateDevices().then( devices =>{
+        devices.forEach((device) => {
+          console.log(`${device.kind}: ${device.label} id = ${device.deviceId}`);
+        });
+        
+        devices.forEach((device) => {
+          console.log(`${device.kind}: ${device.label} id = ${device.deviceId}`);
+        });
+  
+        navigator.mediaDevices.getUserMedia({video:true, audio: true }).then(currentStream=>{
+          setstream(currentStream)
+                   answerCall(currentStream)
+                   myVideo.current.srcObject = currentStream
         })
-        } 
+        
+      })
+    }else{
+      prompt('this app is not allowed to use this device mediastream' )
     }
+    }
+    console.log(userVideo)
 
     function calluser(){
       
-      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-          .then((currentStream) => {
-            console.log(currentStream)
+      if(navigator.mediaDevices?.enumerateDevices){
+        navigator.mediaDevices.enumerateDevices().then( devices =>{
+          devices.forEach((device) => {
+            console.log(`${device.kind}: ${device.label} id = ${device.deviceId}`);
+          });
+         
+          devices.forEach((device) => {
+            console.log(`${device.kind}: ${device.label} id = ${device.deviceId}`);
+          });
+          
+          navigator.mediaDevices.getUserMedia({video:true, audio: true }).then(currentStream=>{
             setstream(currentStream)
+            callUser(currentStream)
             myVideo.current.srcObject = currentStream
-            callUser(frienddata._id,currentStream,user.name)
-            
-        });
-        }else if(navigator.mediaDevices?.enumerateDevices){
-          navigator.mediaDevices.enumerateDevices().then( devices =>{
-            const cameras = devices.filter( device => {
-              return device.kind === 'videoinput'
-            });
-            if (cameras.length >= 1) prompt('cameras avail');
-            const mics = devices.filter( device => {
-              return device.kind === 'audioinput'
-            });
-            if (mics.length >= 1) prompt('mics avail');
-
           })
-        }else{
-          prompt('this app is not allowed to use this device mediastream' )
-        }
+          
+        })
+      }else{
+        prompt('this app is not allowed to use this device mediastream' )
+      }
     }
 
     function leavecall(){
