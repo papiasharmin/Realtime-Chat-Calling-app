@@ -64,7 +64,7 @@ export function Pusherprovider(props){
         setnotify(doc)
     }
 
-    const answerCall = () => {
+    const answerCall = (stream) => {
         setCallAccepted(true);
         //if(!channelRef.current){
           //console.log(JSON.parse(localStorage.getItem('channel')))
