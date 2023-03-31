@@ -5,7 +5,7 @@ const nextConfig = {
       mongodb_user: 'papiasharmin33',
       mongodb_pass: 'KHreQLMHHtXVRdQj',
       mongodb_cluster: 'cluster0',
-      NEXTAUTH_URL:'https://main--fluffy-tartufo-80899b.netlify.app',
+      NEXTAUTH_URL:'https://main--papiachatapp.netlify.app',
       NEXTAUTH_SECRET: 'papiasharim25121991',
       PUSHER_APP_ID : "1563681",
       PUSHER_KEY : "914188472a2b75114ad5",
