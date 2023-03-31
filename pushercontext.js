@@ -51,10 +51,14 @@ export function Pusherprovider(props){
                channelRef.current.bind('client-callUser', (data) => {
                   console.log(data) 
                   if(data.userToCall === username){
-                    setCall({ isReceivingCall: true, from:data.from, signal:data.signalData, name:data.name }); 
-                  }
-                 
+                    setCall({ isReceivingCall: true, from:data.from, signal:data.signalData, name:data.name, type:data.type }); 
+                  } 
                });
+
+              channelRef.current.bind('client-calloff',({msg})=>{
+                    console.log(msg)
+                    setCall({})
+              })
             
         }
     },[username])
@@ -86,11 +90,12 @@ export function Pusherprovider(props){
           console.log('close')
           //leaveCall()
         })
+     
     
         peer.on('stream', (currentStream) => {
             console.log(currentStream)
             userVideo.current.srcObject = currentStream;
-            console.log('streamadded')
+            
         });
 
         peer.signal(call.signal);
@@ -99,26 +104,27 @@ export function Pusherprovider(props){
 
       };
     
-      const callUser = (id,stream,name) => {
+      const callUser = (id,stream,name,type) => {
         console.log(id)
         const peer = new Peer({ initiator: true, trickle: false, stream });
         console.log(stream)
         peer.on('signal', (data) => {
           console.log(data)
-          channelRef.current.trigger('client-callUser', { userToCall: id, signalData: data, from: username,name : name });
+          channelRef.current.trigger('client-callUser', { userToCall: id, signalData:data, from:username, name:name, type:type });
          
         });
     
         peer.on('stream', (currentStream) => {
           console.log(currentStream)
           userVideo.current.srcObject = currentStream;
-            console.log('streamadded')
+  
         });
 
         peer.on('error',(error)=>{
           console.log(error)
         })
-        channelRef.current.bind('client-reject',(msg)=>{
+        channelRef.current.bind('client-reject',({msg})=>{
+          console.log(msg)
           connectionRef.current.destroy()
         })
         peer.on('connect',()=>{
@@ -149,13 +155,19 @@ export function Pusherprovider(props){
         
       };
       const rejectCall = ()=>{
+        console.log('dont recive')
         setCall({})
         channelRef.current.trigger('client-reject',{msg:'call rejected'})
 
       }
 
+      const calloff = ()=>{
+        channelRef.current.trigger('client-calloff',{msg:'call canceled'})
+      }
+
+
    
-   console.log(userVideo)
+   //console.log(userVideo)
    useEffect(()=>{},[notify,username])
    
     return (
@@ -165,8 +177,8 @@ export function Pusherprovider(props){
                                     call,
                                     callAccepted,
                                     userVideo,
-                                
                                     callEnded,
+                                    calloff,
                                     rejectCall,
                                     callUser,
                                     leaveCall,
