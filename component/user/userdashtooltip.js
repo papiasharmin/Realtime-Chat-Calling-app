@@ -15,7 +15,7 @@ function Userdashtooltip(props){
     async function handelsignout(){
         await updatestatus('offline')
         localStorage.removeItem('user')
-        await signOut({ callbackUrl: 'https://main--fluffy-tartufo-80899b.netlify.app/login' })  
+        await signOut({ callbackUrl: 'https://main--papiachatapp.netlify.app/login' })  
     }
 
     return(
