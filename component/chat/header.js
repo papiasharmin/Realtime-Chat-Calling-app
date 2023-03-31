@@ -54,7 +54,7 @@ function Header({frienddata,user,deletemsg}) {
 
     function answercall(){
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) { 
-        navigator.mediaDevices.getUserMedia({ audio: true })
+        navigator.mediaDevices.getUserMedia({ video: true, audio: true  })
           .then((currentStream) => {
             console.log(currentStream)
             setstream(currentStream)
