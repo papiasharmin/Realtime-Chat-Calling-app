@@ -91,7 +91,7 @@ function Header({frienddata,user,deletemsg}) {
           
           navigator.mediaDevices.getUserMedia({video:true, audio: true }).then(currentStream=>{
             setstream(currentStream)
-            callUser(currentStream)
+            callUser(frienddata._id,currentStream,user.name)
             myVideo.current.srcObject = currentStream
           })
           
