@@ -14,7 +14,6 @@ export function Pusherprovider(props){
     const [callAccepted, setCallAccepted] = useState(false);
     const [callEnded, setCallEnded] = useState(false);
     const [stream, setStream] = useState(null);
-    const [name, setName] = useState('');
     const [call, setCall] = useState({});
     const userVideo = useRef();
     const connectionRef = useRef();
@@ -43,15 +42,18 @@ export function Pusherprovider(props){
                    cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER,
                 });
                channelRef.current = pusherRef.current.subscribe('presence-chat');
-               console.log(channelRef.current)
-           
+               console.log(channelRef.current.members)
+               //localStorage.setItem('channel',JSON.stringify(channelRef.current.PresenceChannel))
                channelRef.current.bind('client-newNotify',(doc)=>{
                     listennotify(doc);
                });
 
                channelRef.current.bind('client-callUser', (data) => {
                   console.log(data) 
-                  setCall({ isReceivingCall: true, from:data.from, signal:data.signalData, name:data.name }); 
+                  if(data.userToCall === username){
+                    setCall({ isReceivingCall: true, from:data.from, signal:data.signalData, name:data.name }); 
+                  }
+                 
                });
             
         }
@@ -64,6 +66,11 @@ export function Pusherprovider(props){
 
     const answerCall = () => {
         setCallAccepted(true);
+        //if(!channelRef.current){
+          //console.log(JSON.parse(localStorage.getItem('channel')))
+          //channelRef.current = JSON.parse(localStorage.getItem('channel'))
+
+        //}
         const peer = new Peer({ initiator: false, trickle: false, stream });
         console.log(stream)
 
@@ -79,6 +86,10 @@ export function Pusherprovider(props){
         peer.on('connect',()=>{
           console.log('connect')
         })
+        peer.on('close', () => {
+          console.log('close')
+          leaveCall()
+        })
     
         peer.on('stream', (currentStream) => {
             console.log(currentStream)
@@ -91,13 +102,14 @@ export function Pusherprovider(props){
 
       };
     
-      const callUser = (id,stream) => {
+      const callUser = (id,stream,name) => {
         console.log(id)
         const peer = new Peer({ initiator: true, trickle: false, stream });
         console.log(stream)
         peer.on('signal', (data) => {
           console.log(data)
           channelRef.current.trigger('client-callUser', { userToCall: id, signalData: data, from: username,name : name });
+         
         });
     
         peer.on('stream', (currentStream) => {
@@ -108,8 +120,16 @@ export function Pusherprovider(props){
         peer.on('error',(error)=>{
           console.log(error)
         })
+        channelRef.current.bind('client-reject',(msg)=>{
+          connectionRef.current.destroy()
+        })
         peer.on('connect',()=>{
           console.log('connect')
+        })
+        peer.on('close', () => {
+          console.log('close')
+          leaveCall()
+
         })
     
         channelRef.current.bind('client-answerCall', (data) => {
@@ -125,14 +145,21 @@ export function Pusherprovider(props){
 
       const leaveCall = () => {
         setCallEnded(true);
-    
         connectionRef.current.destroy();
-        setStream(null)
+        //setStream(null)
+        window.location.reload();
         
       };
+      const rejectCall = ()=>{
+        setCall({})
+        channelRef.current.trigger('client-reject',{msg:'call rejected'})
+
+      }
+
+   
 
    useEffect(()=>{},[notify,username])
-   console.log(name)
+   
     return (
         <Pushercontext.Provider value={{
                                     setusername,
@@ -140,9 +167,9 @@ export function Pusherprovider(props){
                                     call,
                                     callAccepted,
                                     userVideo,
-                                    name,
-                                    setName,
+                                
                                     callEnded,
+                                    rejectCall,
                                     callUser,
                                     leaveCall,
                                     answerCall,
