@@ -29,7 +29,7 @@ const Login = ({userdetail}) => {
       email: logemailref.current?.value,
       password: logpasswordref.current?.value
     })
-    console.log(result)
+    
     
     if(!session){
       setnotify(result?.error ? result?.error: '' )
@@ -45,9 +45,17 @@ const Login = ({userdetail}) => {
     router.push(`/signup`)
   }
 
+  async function getdata(){
+    const res = await fetch(`/api/getdata`);
+    const data = await res.json();
+    
+    puserctx.setusername(data._id)
+    
+  }
+
   useEffect(()=>{
     if(session){ 
-      puserctx.setusername(session.user.email)
+      getdata()
       router.push(`/${session.user.email}`)
     }
   },[session])
@@ -76,17 +84,3 @@ const Login = ({userdetail}) => {
 }
 
 export default Login
-
-// export async function getServerSideProps({req,res}) {
-
-//   const secret = process.env.NEXTAUTH_SECRET
-//   const session = await getToken({req, secret})
-  
-//   const client = await clientPromise
-//   const db =  client.db('user');
-//   const user = await db.collection('userdetail').findOne({email:session?.email},{_id:1})
-  
-//   return { props: {
-//     userdetail:JSON.stringify(user)
-//    } }
-// }
