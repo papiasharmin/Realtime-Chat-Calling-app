@@ -53,52 +53,68 @@ function Header({frienddata,user,deletemsg}) {
     }
 
     function answercall(){
-
-    if(navigator.mediaDevices?.enumerateDevices){
-      navigator.mediaDevices.enumerateDevices().then( devices =>{
-        devices.forEach((device) => {
-          console.log(`${device.kind}: ${device.label} id = ${device.deviceId}`);
-        });
-        
-        devices.forEach((device) => {
-          console.log(`${device.kind}: ${device.label} id = ${device.deviceId}`);
-        });
-  
-        navigator.mediaDevices.getUserMedia({video:true, audio: true }).then(currentStream=>{
-          setstream(currentStream)
+        if(navigator.mediaDevices.getUserMedia){
+            
+          navigator.mediaDevices.getUserMedia({video:true, audio: true }).then(currentStream=>{
+                    setstream(currentStream)
                    answerCall(currentStream)
                    myVideo.current.srcObject = currentStream
-        })
+          })
+        }
+//     if(navigator.mediaDevices?.enumerateDevices){
+//       navigator.mediaDevices.enumerateDevices().then( devices =>{
+//         devices.forEach((device) => {
+//           console.log(`${device.kind}: ${device.label} id = ${device.deviceId}`);
+//         });
         
-      })
-    }else{
-      prompt('this app is not allowed to use this device mediastream' )
+//         devices.forEach((device) => {
+//           console.log(`${device.kind}: ${device.label} id = ${device.deviceId}`);
+//         });
+  
+//         navigator.mediaDevices.getUserMedia({video:true, audio: true }).then(currentStream=>{
+//           setstream(currentStream)
+//                    answerCall(currentStream)
+//                    myVideo.current.srcObject = currentStream
+//         })
+        
+//       })
+//     }else{
+//       prompt('this app is not allowed to use this device mediastream' )
+//     }
     }
-    }
-    console.log(userVideo)
+    console.log(`uservidioheader${userVideo}`)
 
     function calluser(){
-      
-      if(navigator.mediaDevices?.enumerateDevices){
-        navigator.mediaDevices.enumerateDevices().then( devices =>{
-          devices.forEach((device) => {
-            console.log(`${device.kind}: ${device.label} id = ${device.deviceId}`);
-          });
-         
-          devices.forEach((device) => {
-            console.log(`${device.kind}: ${device.label} id = ${device.deviceId}`);
-          });
-          
+        
+        if(navigator.mediaDevices.getUserMedia){
+            
           navigator.mediaDevices.getUserMedia({video:true, audio: true }).then(currentStream=>{
-            setstream(currentStream)
-            callUser(frienddata._id,currentStream,user.name)
-            myVideo.current.srcObject = currentStream
+                    setstream(currentStream)
+                   callUser(frienddata._id,currentStream,user.name)
+                   myVideo.current.srcObject = currentStream
           })
+        }
+      
+//       if(navigator.mediaDevices?.enumerateDevices){
+//         navigator.mediaDevices.enumerateDevices().then( devices =>{
+//           devices.forEach((device) => {
+//             console.log(`${device.kind}: ${device.label} id = ${device.deviceId}`);
+//           });
+         
+//           devices.forEach((device) => {
+//             console.log(`${device.kind}: ${device.label} id = ${device.deviceId}`);
+//           });
           
-        })
-      }else{
-        prompt('this app is not allowed to use this device mediastream' )
-      }
+//           navigator.mediaDevices.getUserMedia({video:true, audio: true }).then(currentStream=>{
+//             setstream(currentStream)
+//             callUser(frienddata._id,currentStream,user.name)
+//             myVideo.current.srcObject = currentStream
+//           })
+          
+//         })
+//       }else{
+//         prompt('this app is not allowed to use this device mediastream' )
+//       }
     }
 
     function leavecall(){
