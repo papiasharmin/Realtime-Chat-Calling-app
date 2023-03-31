@@ -3,7 +3,7 @@ import { gettime } from '../../helper'
 import  {Avatar,Badge,Button} from "../../node_modules/@mui/material";
 import Chattooltip from "./chatcontooltip";
 import classes from './chatcontainer.module.css'
-import {CloseOutlined,MoreHoriz, VideoCall,PhoneDisabled} from "@mui/icons-material";
+import {CloseOutlined,MoreHoriz, Videocam, VideocamOff, MicOff} from "@mui/icons-material";
 import { useRouter } from 'next/router';
 import Pushercontext from '../../pushercontext';
 
@@ -13,8 +13,9 @@ function Header({frienddata,user,deletemsg}) {
     let [ontooltip,setontooltip] = useState(false);
     let [time,settime] = useState(0);
     const router = useRouter()
-    const { callUser,answerCall, callAccepted, userVideo, callEnded, call, leaveCall,} = useContext(Pushercontext);
-    let [showmyved,setshowmyved] = useState(false);
+    const { callUser,answerCall, callAccepted, userVideo, callEnded, call, leaveCall,rejectCall} = useContext(Pushercontext);
+    const [stream, setstream] = useState(true);
+   
     const myVideo = useRef()
    
     function handelMouseenter(event){    
@@ -51,30 +52,12 @@ function Header({frienddata,user,deletemsg}) {
         router.push(`/`)
     }
 
-    // useEffect(()=>{
-    //   if(myvideostream && !myVideo.current){
-    //     myVideo.current.srcObject = myvideostream
-    //   }
-    // },[myvideostream])
-
-    useEffect(()=>{
-      if(callEnded && myVideo.current){
-        setshowmyved(false)
-        myVideo.current.srcObject = null
-      }
-    },[callEnded])
-
     function answercall(){
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) { 
-        navigator.mediaDevices.getUserMedia({ video:true, audio: true })
+        navigator.mediaDevices.getUserMedia({ audio: true })
           .then((currentStream) => {
             console.log(currentStream)
-            
-            // if(myVideo.current.srcObject ){
-            //   myVideo.current.srcObject = currentStream
-            // }else{
-            //   myVideo.current.src = currentStream
-            // }
+            setstream(currentStream)
             answerCall(currentStream)
             myVideo.current.srcObject = currentStream
         }).catch((error) =>{
@@ -89,18 +72,49 @@ function Header({frienddata,user,deletemsg}) {
         navigator.mediaDevices.getUserMedia({ video: true, audio: true })
           .then((currentStream) => {
             console.log(currentStream)
-            
-            // if(myVideo.current.srcObject ){
-            //   myVideo.current.srcObject = currentStream
-            // }else{
-            //   myVideo.current.src = currentStream
-            // }
+            setstream(currentStream)
             myVideo.current.srcObject = currentStream
-            callUser(frienddata._id,currentStream)
+            callUser(frienddata._id,currentStream,user.name)
             
         });
-        }  
+        }else if(navigator.mediaDevices?.enumerateDevices){
+          navigator.mediaDevices.enumerateDevices().then( devices =>{
+            const cameras = devices.filter( device => {
+              return device.kind === 'videoinput'
+            });
+            if (cameras.length >= 1) prompt('cameras avail');
+            const mics = devices.filter( device => {
+              return device.kind === 'audioinput'
+            });
+            if (mics.length >= 1) prompt('mics avail');
+
+          })
+        }else{
+          prompt('this app is not allowed to use this device mediastream' )
+        }
     }
+
+    function leavecall(){
+      myVideo.current.srcObject = null
+      leaveCall()
+
+    }
+ 
+    const toggleMic = () => {
+      
+      const track = stream.getAudioTracks();
+      track[0].enabled = !track[0].enabled
+  
+    };
+  
+    const toggleCamera = () => {
+ 
+      const track = stream.getVideoTracks();
+       if(track.length >0){
+        track[0].enabled = !track[0].enabled
+       }
+      
+    };
 
     const avatar =  <div className={classes.avatarbor}> 
                         <Badge className={frienddata.status == 'online'? classes.badge : classes.badgeoff} overlap="circular" variant="dot"></Badge>
@@ -117,26 +131,37 @@ function Header({frienddata,user,deletemsg}) {
             </div>
         </div>
         <div>
-            <VideoCall variant="contained" color="primary"  sx={{ width :25, height:25}} onClick={calluser} />
+            <Videocam variant="contained" color="primary"  sx={{ width :25, height:25}} onClick={calluser} />
             <MoreHoriz color="primary" id='tool' onMouseEnter={handelMouseenter} onMouseLeave={handelMouseleave}/> 
             {show === 'tool'  && <Chattooltip  onmouseenter={handeltooltipenter} onmouseleave={handeltooltipleave} user={user} friendemail={frienddata.email} deletemsg={deletemsg}/>}         
             <CloseOutlined sx={{ width :25, height:25}} color="primary" onClick={closechat}/>
         </div>
         <div className={classes.video}><video playsInline ref={myVideo} autoPlay  /></div>
-          {callAccepted && !callEnded && 
+        {callAccepted && !callEnded && 
   <div className={classes.callAccepted}>
-      <video playsInline ref={userVideo}  autoPlay  />
-      <Button variant="contained" color="secondary" startIcon={<PhoneDisabled fontSize="large" />} fullWidth onClick={leaveCall} >
-          Hang Up
+      <video playsInline ref={userVideo} autoPlay  />
+      <div className={classes.callopt}>
+      <MicOff onClick={toggleMic}/>
+      <VideocamOff onClick={toggleCamera}/>
+      </div>
+      <Button variant="contained" color="secondary" fullWidth onClick={leavecall} >
+          Endcall
       </Button>
   </div>
 }
+
          {call.isReceivingCall && !callAccepted && 
 <div className={classes.answercall} >
+    <audio src='/music/ringtone.mp3' autoPlay></audio>
     <h3>{call.name} is calling:</h3>
-    <Button variant="contained" color="primary" sx={{ width :50, height:25}} onClick={answercall}>
+    <div >
+    <Button variant="outlined" color="success" sx={{ width :50, height:25}} onClick={answercall}>
         Answer
     </Button>
+    <Button variant="outlined" color="error" sx={{ width :50, height:25}} onClick={rejectCall}>
+       Reject
+    </Button>
+    </div>
 
 </div>
 }
