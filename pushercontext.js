@@ -84,12 +84,13 @@ export function Pusherprovider(props){
         })
         peer.on('close', () => {
           console.log('close')
-          leaveCall()
+          //leaveCall()
         })
     
         peer.on('stream', (currentStream) => {
             console.log(currentStream)
             userVideo.current.srcObject = currentStream;
+            console.log('streamadded')
         });
 
         peer.signal(call.signal);
@@ -111,6 +112,7 @@ export function Pusherprovider(props){
         peer.on('stream', (currentStream) => {
           console.log(currentStream)
           userVideo.current.srcObject = currentStream;
+            console.log('streamadded')
         });
 
         peer.on('error',(error)=>{
@@ -124,7 +126,7 @@ export function Pusherprovider(props){
         })
         peer.on('close', () => {
           console.log('close')
-          leaveCall()
+          //leaveCall()
 
         })
     
