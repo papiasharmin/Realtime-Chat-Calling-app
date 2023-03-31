@@ -233,3 +233,16 @@
     align-content: center;
     flex-wrap: wrap;
 }
+
+.callopt{
+    position: absolute;
+    background-color: aliceblue;
+    padding: 2%;
+    display: flex;
+    gap: 10px;
+    justify-content: space-around;
+    align-content: center;
+    bottom: 35px;
+    left: 27%;
+    width: 40%;
+}
