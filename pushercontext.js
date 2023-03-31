@@ -42,8 +42,8 @@ export function Pusherprovider(props){
                    cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER,
                 });
                channelRef.current = pusherRef.current.subscribe('presence-chat');
-               console.log(channelRef.current.members)
-               //localStorage.setItem('channel',JSON.stringify(channelRef.current.PresenceChannel))
+               console.log(channelRef.current)
+               
                channelRef.current.bind('client-newNotify',(doc)=>{
                     listennotify(doc);
                });
@@ -66,11 +66,7 @@ export function Pusherprovider(props){
 
     const answerCall = (stream) => {
         setCallAccepted(true);
-        //if(!channelRef.current){
-          //console.log(JSON.parse(localStorage.getItem('channel')))
-          //channelRef.current = JSON.parse(localStorage.getItem('channel'))
-
-        //}
+  
         const peer = new Peer({ initiator: false, trickle: false, stream });
         console.log(stream)
 
@@ -157,7 +153,7 @@ export function Pusherprovider(props){
       }
 
    
-
+   console.log(userVideo)
    useEffect(()=>{},[notify,username])
    
     return (
