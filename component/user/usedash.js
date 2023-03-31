@@ -35,13 +35,15 @@ function Userdash(){
 
     useEffect(()=>{
       getdata()
+      
     },[])
 
     useEffect(()=>{
       if(userdetail){
         setfriends(userdetail.friends);
         setnotify(userdetail.notification)
-        puserctx.setusername(session.user.email)
+        puserctx.setusername(userdetail._id)
+        
         //puserctx.initiatchange();
         localStorage.setItem('user',JSON.stringify(userdetail))
       }
