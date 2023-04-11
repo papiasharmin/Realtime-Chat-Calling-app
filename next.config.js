@@ -2,17 +2,17 @@
 const nextConfig = {
     reactStrictMode: true,
     env:{
-      mongodb_user: 'papiasharmin33',
-      mongodb_pass: 'KHreQLMHHtXVRdQj',
-      mongodb_cluster: 'cluster0',
-      NEXTAUTH_URL:'https://main--papiachatapp.netlify.app',
-      NEXTAUTH_SECRET: 'papiasharim25121991',
-      PUSHER_APP_ID : "1563681",
-      PUSHER_KEY : "914188472a2b75114ad5",
-      NEXT_PUBLIC_PUSHER_KEY : "914188472a2b75114ad5"  ,
-      PUSHER_SECRET : "635a06eb0032f6453f3f",
-      NEXT_PUBLIC_PUSHER_CLUSTER : "ap3" ,
-      PUSHER_CLUSTER : "ap3" 
+      mongodb_user: 'XXXXXXX',
+      mongodb_pass: 'XXXXXXX',
+      mongodb_cluster: 'XXXXXXX',
+      NEXTAUTH_URL:'XXXXXXXX',
+      NEXTAUTH_SECRET: 'XXXXXXX',
+      PUSHER_APP_ID : "XXXXXX",
+      PUSHER_KEY : "XXXXXXX",
+      NEXT_PUBLIC_PUSHER_KEY : "XXXXXXXXXX"  ,
+      PUSHER_SECRET : "XXXXXXXXX",
+      NEXT_PUBLIC_PUSHER_CLUSTER : "XXXXXXX" ,
+      PUSHER_CLUSTER : "XXXXXXX" 
   
     },
     images: {
